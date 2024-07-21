@@ -1,3 +1,5 @@
+import { CONSTANTS } from "../constants";
+
 export const tryCatchWrapper = <ReturnType = void, ArgType = void>(
   operation: (args: ArgType) => Promise<ReturnType>
 ) => {
@@ -10,7 +12,7 @@ export const tryCatchWrapper = <ReturnType = void, ArgType = void>(
           ? err.message
           : typeof err === "string"
             ? err
-            : "Something went wrong.Please try again later.";
+            : CONSTANTS.ERROR_MESSAGE.SOMETHING_WENT_WRONG;
       return { error: { message: errorMessage } } as ReturnType;
     }
   };

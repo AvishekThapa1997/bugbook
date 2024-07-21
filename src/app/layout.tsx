@@ -22,11 +22,17 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={cn(geistSans.variable, geistMono.variable, "bg-background")}
+        className={cn(
+          geistSans.variable,
+          geistMono.variable,
+          "bg-background text-foreground"
+        )}
       >
         <ReactQueryProvider>
           <SupabaseClientProvider>
-            <ThemeProvider>{children}</ThemeProvider>
+            <ThemeProvider>
+              <main> {children}</main>
+            </ThemeProvider>
           </SupabaseClientProvider>
         </ReactQueryProvider>
       </body>
