@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "@/src/globals.css";
 import ThemeProvider from "./_providers/ThemeProvider";
-import { ReactQueryProvider, SupabaseClientProvider } from "./_providers";
+import { ReactQueryProvider } from "./_providers";
 import { cn } from "../lib";
 import { geistMono, geistSans } from "../assets/fonts";
 
@@ -29,11 +28,9 @@ export default function RootLayout({
         )}
       >
         <ReactQueryProvider>
-          <SupabaseClientProvider>
-            <ThemeProvider>
-              <main> {children}</main>
-            </ThemeProvider>
-          </SupabaseClientProvider>
+          <ThemeProvider>
+            <main> {children}</main>
+          </ThemeProvider>
         </ReactQueryProvider>
       </body>
     </html>

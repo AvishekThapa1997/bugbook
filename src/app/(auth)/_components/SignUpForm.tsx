@@ -6,26 +6,31 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import {
   Box,
-  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Input
+  Input,
+  LoadingButton,
+  PasswordInput
 } from "../../_components/ui";
 import { cn } from "@/src/lib";
 
 import { useIsClient } from "../../_hooks";
 import { InputField } from "../types";
 
+import { CONSTANTS } from "@/src/constants";
+import { ErrorMessage } from "../../_components/common/ErrorMessage";
+import { useUserSignUp } from "../_hooks";
+
 const signUpFields = [
   {
-    name: "username",
+    name: "name",
     type: "text",
-    label: "username",
-    placeholder: "Enter username"
+    label: "name",
+    placeholder: "Enter name"
   },
   {
     name: "email",
@@ -47,56 +52,98 @@ const signUpFields = [
   }
 ] as InputField[];
 const SignUpForm = ({ className }: BaseProps) => {
+  const { isPending, mutateAsync } = useUserSignUp();
   const isClient = useIsClient();
   const signupForm = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
       confirmPassword: ""
     }
   });
-
-  function onSubmit(signUpValues: SignUpSchema) {}
+  const {
+    setError,
+    handleSubmit,
+    formState: { errors }
+  } = signupForm;
+  async function onSubmit(signUpValues: SignUpSchema) {
+    const { error } = (await mutateAsync(signUpValues)) ?? {};
+    if (!error) {
+      return;
+    }
+    if (Array.isArray(error)) {
+      error.forEach(({ field, message }) => {
+        setError(
+          field,
+          { message },
+          {
+            shouldFocus: true
+          }
+        );
+      });
+      return;
+    }
+    setError(`root.${CONSTANTS.ERROR_MESSAGE.SERVER_ERROR}`, {
+      message: error.message
+    });
+  }
+  const serverErrorMessage =
+    errors.root?.[CONSTANTS.ERROR_MESSAGE.SERVER_ERROR]?.message;
   return (
-    <Form {...signupForm}>
-      <form
-        className={cn("space-y-2", className)}
-        onSubmit={signupForm.handleSubmit(onSubmit)}
-        noValidate={isClient}
-      >
-        {signUpFields.map(({ label, name, type, placeholder }) => (
-          <FormField
-            control={signupForm.control}
-            name={name as keyof SignUpSchema}
-            key={name}
-            render={({ field }) => (
-              <FormItem className='space-y-1'>
-                <FormLabel className='capitalize'>{label}</FormLabel>
-                <FormControl>
-                  <Input
-                    type={type}
-                    placeholder={placeholder}
-                    required
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          ></FormField>
-        ))}
-        <Box>
-          <Button
-            className='mt-2 w-full'
-            type='submit'
-          >
-            Create account
-          </Button>
-        </Box>
-      </form>
-    </Form>
+    <>
+      <Form {...signupForm}>
+        {!!serverErrorMessage && <ErrorMessage message={serverErrorMessage} />}
+        <form
+          className={cn("space-y-2", className)}
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate={isClient}
+          name='signup-form'
+        >
+          {signUpFields.map(({ label, name, type, placeholder }) => (
+            <FormField
+              control={signupForm.control}
+              name={name as keyof SignUpSchema}
+              key={name}
+              render={({ field }) => (
+                <FormItem className='space-y-1'>
+                  <FormLabel className='capitalize'>{label}</FormLabel>
+                  <FormControl>
+                    {type === "password" ? (
+                      <PasswordInput
+                        placeholder={placeholder}
+                        required
+                        {...field}
+                        disabled={isPending}
+                      />
+                    ) : (
+                      <Input
+                        type={type}
+                        placeholder={placeholder}
+                        required
+                        {...field}
+                        disabled={isPending}
+                      />
+                    )}
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            ></FormField>
+          ))}
+          <Box>
+            <LoadingButton
+              className='mt-4 w-full'
+              isLoading={isPending}
+              type='submit'
+            >
+              Create account
+            </LoadingButton>
+          </Box>
+        </form>
+      </Form>
+    </>
   );
 };
 

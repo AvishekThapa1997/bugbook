@@ -4,3 +4,7 @@ export * from "./Form";
 export * from "./Input";
 export * from "./Label";
 export * from "./Button";
+export * from "./PasswordInput";
+export * from "./LoadingButton";
+export * from "./DropdownMenu";
+export * from "./Avatar";
