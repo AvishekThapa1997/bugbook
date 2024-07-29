@@ -1,4 +1,3 @@
-import { User as SupabaseUser } from "@supabase/supabase-js";
 import { Models } from "node-appwrite";
 export interface User {
   id: string;
