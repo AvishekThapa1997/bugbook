@@ -1,6 +1,6 @@
 "use client";
-import React, { createContext, PropsWithChildren } from "react";
-import { ThemeProvider as NextThemeProvider, useTheme } from "next-themes";
+import React, { PropsWithChildren } from "react";
+import { ThemeProvider as NextThemeProvider } from "next-themes";
 
 const ThemeProvider = ({ children }: PropsWithChildren) => {
   return (
@@ -14,4 +14,4 @@ const ThemeProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default ThemeProvider;
+export { ThemeProvider };

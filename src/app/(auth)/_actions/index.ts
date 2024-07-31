@@ -1,7 +1,7 @@
 "use server";
 
 import { SignInSchema, SignUpSchema } from "@/src/lib/validation";
-import * as authService from "../_service";
+import * as authService from "@/auth/_service";
 import { redirect, RedirectType } from "next/navigation";
 import { cookies } from "next/headers";
 import { CONSTANTS } from "@/src/constants";

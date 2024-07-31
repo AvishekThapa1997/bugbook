@@ -1,5 +1,5 @@
-import { getLoggedInUser } from "../(auth)/_service";
-import { ProtectedPage } from "../_components/common/ProtectedPage";
+import { getLoggedInUser } from "@/auth/_service";
+import { ProtectedPage } from "./_components/ProtectedPage";
 
 export default async function Home() {
   const { data, error } = await getLoggedInUser();

@@ -15,15 +15,15 @@ import {
   Input,
   LoadingButton,
   PasswordInput
-} from "../../_components/ui";
+} from "@/app/_components/ui";
 import { cn } from "@/src/lib";
 
-import { useIsClient } from "../../_hooks";
-import { InputField } from "../types";
+import { useIsClient } from "@/app/_hooks";
+import { InputField } from "@/auth/types";
 
 import { CONSTANTS } from "@/src/constants";
-import { ErrorMessage } from "../../_components/common/ErrorMessage";
-import { useUserSignUp } from "../_hooks";
+import { ErrorMessage } from "@/app/_components/common/ErrorMessage";
+import { useUserSignUp } from "@/auth/_hooks";
 
 const signUpFields = [
   {

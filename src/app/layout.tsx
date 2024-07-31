@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "@/src/globals.css";
-import ThemeProvider from "./_providers/ThemeProvider";
+import { ThemeProvider } from "@/app/_providers/";
 import { ReactQueryProvider } from "./_providers";
-import { cn } from "../lib";
-import { geistMono, geistSans } from "../assets/fonts";
+import { cn } from "@/src/lib";
+import { geistMono, geistSans } from "@/src/assets/fonts";
 
 export const metadata: Metadata = {
   title: {

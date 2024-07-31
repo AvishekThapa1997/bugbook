@@ -14,13 +14,14 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
-} from "../ui";
-import { UserAvatar } from "./UserAvatar";
+} from "@/app/_components/ui";
+import { UserAvatar } from "@/main/_components/UserAvatar";
 import Link from "next/link";
 import { LogOut, Monitor, Moon, Sun, UserIcon } from "lucide-react";
 import { cn } from "@/src/lib";
-import { useAppTheme, useUser } from "../../_hooks";
-import { signOut } from "../../(auth)/_actions";
+import { useAppTheme } from "@/app/_hooks";
+import { signOut } from "@/auth/_actions";
+import { useUser } from "@/auth/_hooks";
 
 const UserButton = ({ className }: BaseProps) => {
   const user = useUser();

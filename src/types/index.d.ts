@@ -1,4 +1,4 @@
-import { SignInSchema } from "../lib/validation";
+import { SignInSchema } from "@/src/lib/validation";
 
 export interface BaseProps {
   className?: string;
@@ -18,3 +18,5 @@ export type FieldError<T> = {
   field: keyof T;
   message: string;
 };
+
+export type AppRoute = "/" | "/messges" | "/notifications" | "/bookmarks";

@@ -1,7 +1,7 @@
 "use client";
 
-import { CircleXIcon, CrossIcon, SearchIcon } from "lucide-react";
-import { Box, Input } from "../ui";
+import { CircleXIcon, SearchIcon } from "lucide-react";
+import { Box, Input } from "@/app/_components/ui";
 import React, { useState } from "react";
 import { BaseProps } from "@/src/types";
 import { cn } from "@/src/lib";

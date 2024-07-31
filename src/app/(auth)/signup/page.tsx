@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 import React from "react";
-import { Box } from "../../_components/ui";
+import { Box } from "@/app/_components/ui";
 import Image from "next/image";
 import signUpImage from "@/src/assets/image/signup-image.webp";
-import { SignUpForm } from "../_components/SignUpForm";
+import { SignUpForm } from "@/auth/_components";
 import Link from "next/link";
 
 export const metadata = {
@@ -12,7 +12,7 @@ export const metadata = {
 
 const SignUpPage = () => {
   return (
-    <Box className='flex h-svh items-center px-4'>
+    <main className='flex h-svh items-center px-4'>
       <Box className='relative mx-auto flex max-h-[40rem] max-w-96 basis-full overflow-hidden rounded-lg bg-card p-0 shadow-xl md:max-w-4xl'>
         <Box className='basis-full space-y-3 p-6 md:basis-1/2 md:p-10'>
           <Box className='space-y-1 text-center'>
@@ -44,7 +44,7 @@ const SignUpPage = () => {
           />
         </Box>
       </Box>
-    </Box>
+    </main>
   );
 };
 
