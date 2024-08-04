@@ -1,6 +1,5 @@
-// src/lib/server/appwrite.js
 "use server";
-import { Client, Account } from "node-appwrite";
+import { Client, Account, Databases } from "node-appwrite";
 import { cookies } from "next/headers";
 import { CONSTANTS } from "@/src/constants";
 import { cache } from "react";
@@ -20,6 +19,9 @@ export const createSessionClient = cache(async () => {
   return {
     get account() {
       return new Account(client);
+    },
+    get database() {
+      return new Databases(client);
     }
   };
 });

@@ -3,8 +3,8 @@ import React from "react";
 import { Box } from "@/app/_components/ui";
 import Image from "next/image";
 import signUpImage from "@/src/assets/image/signup-image.webp";
-import { SignUpForm } from "@/auth/_components";
 import Link from "next/link";
+import { SignUpForm } from "../_components/SignUpForm";
 
 export const metadata = {
   title: "Sign up"

@@ -38,7 +38,7 @@ interface NavigationProps
     Pick<React.ComponentProps<typeof NavigationItem>, "linkStyle"> {}
 const Navigation = ({ className, linkStyle }: NavigationProps) => {
   return (
-    <nav className={cn("bg-card shadow-sm", className)}>
+    <nav className={cn("bg-card shadow", className)}>
       {navigations.map(({ href, icon, title }) => (
         <NavigationItem
           key={href}

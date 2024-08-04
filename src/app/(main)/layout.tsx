@@ -17,8 +17,8 @@ const MainLayout = async ({ children }: PropsWithChildren) => {
     <UserProvider user={data}>
       <Header />
       <Box className='mx-auto flex max-w-7xl grow gap-5 p-5'>
-        <DesktopNavigation />
-        <main>{children}</main>
+        <DesktopNavigation className='xl:basis-72' />
+        <main className='flex-grow'>{children}</main>
       </Box>
       <MobileNavigation />
     </UserProvider>

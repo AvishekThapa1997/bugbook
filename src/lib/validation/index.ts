@@ -48,8 +48,17 @@ export const signInSchema = zod
   })
   .readonly();
 
+export const createPostSchema = zod.object({
+  content: zod
+    .string({ message: CONSTANTS.ERROR_MESSAGE.POST_CONTENT_IS_REQUIRED })
+    .max(CONSTANTS.POST_CONTENT_MAX_LENGTH, {
+      message: CONSTANTS.ERROR_MESSAGE.POST_MAX_LENGTH
+    })
+});
+
 export type SignUpSchema = zod.infer<typeof signUpSchema>;
 export type SignInSchema = zod.infer<typeof signInSchema>;
+export type CreatePostSchema = zod.infer<typeof createPostSchema>;
 
 export const parseSchema = <T extends ZodSchema>(
   schema: T,
