@@ -1,13 +1,8 @@
 import { PropsWithChildren } from "react";
-import { getLoggedInUser } from "./_service";
-import { redirect } from "next/navigation";
+import { AuthServiceAdapterProvider } from "./_provider";
 
 const AuthLayout = async ({ children }: PropsWithChildren) => {
-  const result = await getLoggedInUser();
-  if (result.data) {
-    redirect("/");
-  }
-  return <>{children}</>;
+  return <AuthServiceAdapterProvider>{children}</AuthServiceAdapterProvider>;
 };
 
 export default AuthLayout;

@@ -6,7 +6,7 @@ import { HashTag, Result } from "@/src/types";
 import { CreatePostSchema } from "@/src/lib/validation";
 import { ServerError, UnauthorizedError } from "@/src/error";
 import { Databases, ID, Permission, Query, Role } from "node-appwrite";
-import { getLoggedInUser } from "@/src/app/(auth)/_service";
+import { getLoggedInUser } from "@/src/app/(auth)/_util";
 import { getResourceOwnerPermission } from "@/src/lib/app-write/permission";
 import { cache } from "react";
 import { extractHashTags } from "../util";

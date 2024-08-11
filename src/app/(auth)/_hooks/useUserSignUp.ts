@@ -4,6 +4,8 @@ import { SignUpSchema } from "@/src/lib/validation";
 
 export const useUserSignUp = () => {
   return useMutationHandler({
-    mutationFn: (signUpSchema: SignUpSchema) => signUp(signUpSchema)
+    mutationFn: (signUpSchema: SignUpSchema) => {
+      return signUp(signUpSchema);
+    }
   });
 };

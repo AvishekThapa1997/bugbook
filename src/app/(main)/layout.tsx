@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import { getLoggedInUser } from "@/auth/_service";
+
 import { redirect } from "next/navigation";
 import { Header } from "./_components/Header";
 
@@ -7,6 +7,7 @@ import { Box } from "@/app/_components/ui";
 import { DesktopNavigation } from "@/main/_components/DesktopNavigation";
 import { MobileNavigation } from "@/main/_components/MobileNavigation";
 import { UserProvider } from "@/main/_providers/UserProvider";
+import { getLoggedInUser } from "../(auth)/_util";
 
 const MainLayout = async ({ children }: PropsWithChildren) => {
   const { data } = await getLoggedInUser();

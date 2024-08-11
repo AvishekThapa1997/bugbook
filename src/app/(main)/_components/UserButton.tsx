@@ -26,6 +26,7 @@ import { useUser } from "@/auth/_hooks";
 const UserButton = ({ className }: BaseProps) => {
   const user = useUser();
   const { setTheme, theme } = useAppTheme();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -41,7 +42,7 @@ const UserButton = ({ className }: BaseProps) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Welcome {user.name}!</DropdownMenuLabel>
+        <DropdownMenuLabel>Welcome {user.displayName}!</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link

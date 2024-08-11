@@ -41,7 +41,7 @@ const handleError = (err: unknown) => {
     errorData.error.message = err;
   } else if (err instanceof BaseError) {
     errorData.error.message = err.message;
-    errorData.error.code = err.code;
+    errorData.error.code = 0;
   }
   return errorData;
 };

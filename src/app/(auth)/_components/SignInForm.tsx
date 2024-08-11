@@ -19,17 +19,17 @@ import {
 import { cn } from "@/src/lib";
 
 import { useIsClient } from "@/app/_hooks";
-import { InputField } from "@/auth/types";
+import { InputField } from "@/src/app/(auth)/_types";
 import { useUserSignIn } from "@/auth/_hooks";
 import { CONSTANTS } from "@/src/constants";
 import { ErrorMessage } from "@/app/_components/common/ErrorMessage";
 
 const loginFields = [
   {
-    name: "email",
-    type: "email",
-    label: "email",
-    placeholder: "Enter email"
+    name: "username",
+    type: "text",
+    label: "username/Email",
+    placeholder: "Enter username/email"
   },
   {
     name: "password",
@@ -44,7 +44,7 @@ const SignInForm = ({ className }: BaseProps) => {
   const loginForm = useForm<SignInSchema>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: ""
     }
   });

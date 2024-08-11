@@ -1,8 +1,15 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, SignUpSchema } from "@/src/lib/validation";
-import { BaseProps } from "@/src/types";
-import React from "react";
+import { BaseProps, InputEventAction } from "@/src/types";
+import React, {
+  ComponentProps,
+  HTMLInputTypeAttribute,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react";
 import { useForm } from "react-hook-form";
 import {
   Box,
@@ -13,24 +20,27 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  InputProps,
   LoadingButton,
   PasswordInput
 } from "@/app/_components/ui";
 import { cn } from "@/src/lib";
 
 import { useIsClient } from "@/app/_hooks";
-import { InputField } from "@/auth/types";
+import { InputField } from "@/src/app/(auth)/_types";
 
 import { CONSTANTS } from "@/src/constants";
 import { ErrorMessage } from "@/app/_components/common/ErrorMessage";
-import { useUserSignUp } from "@/auth/_hooks";
+import { useCheckForUsernameAvailability, useUserSignUp } from "@/auth/_hooks";
 
 const signUpFields = [
   {
-    name: "name",
+    name: "username",
     type: "text",
-    label: "name",
-    placeholder: "Enter name"
+    label: "username",
+    placeholder: "Enter name",
+    minLength: 6,
+    maxLength: 30
   },
   {
     name: "email",
@@ -39,37 +49,50 @@ const signUpFields = [
     placeholder: "Enter email"
   },
   {
+    name: "name",
+    type: "text",
+    label: "name",
+    placeholder: "Full Name",
+    minLength: 6,
+    maxLength: 50
+  },
+  {
     name: "password",
     type: "password",
     label: "password",
-    placeholder: "Enter password"
-  },
-  {
-    name: "confirmPassword",
-    type: "password",
-    label: "confirm password",
-    placeholder: "Confirm Password"
+    placeholder: "Enter password",
+    minLenght: 8,
+    maxLength: 16
   }
 ] as InputField[];
 const SignUpForm = ({ className }: BaseProps) => {
+  const prevUsernameRef = useRef<string>("");
   const { isPending, mutateAsync } = useUserSignUp();
+  const {
+    isPending: isCheckingForUsernameAvailability,
+    mutateAsync: checkForUsernameAvailability
+  } = useCheckForUsernameAvailability();
   const isClient = useIsClient();
   const signupForm = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      name: "",
+      username: "",
       email: "",
-      password: "",
-      confirmPassword: ""
+      name: "",
+      password: ""
     }
   });
   const {
     setError,
     handleSubmit,
+    clearErrors,
+
     formState: { errors }
   } = signupForm;
+
   async function onSubmit(signUpValues: SignUpSchema) {
     const { error } = (await mutateAsync(signUpValues)) ?? {};
+
     if (!error) {
       return;
     }
@@ -91,6 +114,29 @@ const SignUpForm = ({ className }: BaseProps) => {
   }
   const serverErrorMessage =
     errors.root?.[CONSTANTS.ERROR_MESSAGE.SERVER_ERROR]?.message;
+
+  const inputEventAction = useMemo<
+    Partial<InputEventAction<SignUpSchema>>
+  >(() => {
+    return {
+      username: {
+        onBlur: async (event) => {
+          const username = event.target.value;
+          const prevUsername = prevUsernameRef.current;
+          if (!username || username.length < 2 || prevUsername === username) {
+            return;
+          }
+          prevUsernameRef.current = username;
+          const { error } = await checkForUsernameAvailability(username);
+          if (error && error.code === CONSTANTS.ERROR_STATUS_CODE.CONFLICT) {
+            return setError("username", { message: error.message });
+          }
+          clearErrors("username");
+        }
+      }
+    };
+  }, [checkForUsernameAvailability, setError, clearErrors]);
+
   return (
     <>
       <Form {...signupForm}>
@@ -101,37 +147,46 @@ const SignUpForm = ({ className }: BaseProps) => {
           noValidate={isClient}
           name='signup-form'
         >
-          {signUpFields.map(({ label, name, type, placeholder }) => (
-            <FormField
-              control={signupForm.control}
-              name={name as keyof SignUpSchema}
-              key={name}
-              render={({ field }) => (
-                <FormItem className='space-y-1'>
-                  <FormLabel className='capitalize'>{label}</FormLabel>
-                  <FormControl>
-                    {type === "password" ? (
-                      <PasswordInput
-                        placeholder={placeholder}
-                        required
-                        {...field}
-                        disabled={isPending}
-                      />
-                    ) : (
-                      <Input
-                        type={type}
-                        placeholder={placeholder}
-                        required
-                        {...field}
-                        disabled={isPending}
-                      />
-                    )}
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            ></FormField>
-          ))}
+          {signUpFields.map(
+            ({ label, name, type, placeholder, maxLength, minLength }) => (
+              <FormField
+                control={signupForm.control}
+                name={name as keyof SignUpSchema}
+                key={name}
+                render={({ field }) => (
+                  <FormItem className='space-y-1'>
+                    <FormLabel className='capitalize'>{label}</FormLabel>
+                    <FormControl>
+                      {type === "password" ? (
+                        <PasswordInput
+                          placeholder={placeholder}
+                          required
+                          {...field}
+                          disabled={isPending}
+                          minLength={minLength}
+                          maxLength={maxLength}
+                        />
+                      ) : (
+                        <Input
+                          type={type}
+                          placeholder={placeholder}
+                          required
+                          {...field}
+                          disabled={isPending}
+                          {...(inputEventAction[field.name]
+                            ? inputEventAction[field.name]
+                            : {})}
+                          minLength={minLength}
+                          maxLength={maxLength}
+                        />
+                      )}
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              ></FormField>
+            )
+          )}
           <Box>
             <LoadingButton
               className='mt-4 w-full'

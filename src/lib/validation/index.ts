@@ -4,11 +4,17 @@ import zod, { ZodError, ZodSchema } from "zod";
 
 export const signUpSchema = zod
   .object({
-    name: zod
+    username: zod
       .string({ message: CONSTANTS.ERROR_MESSAGE.USERNAME_REQUIRED })
       .regex(/^[\w\s_-]+$/, {
         message: CONSTANTS.ERROR_MESSAGE.INVALID_USERNAME
+      })
+      .min(6, {
+        message: CONSTANTS.ERROR_MESSAGE.USERNAME_NUM_OF_CHARACTERS_REQUIREMENT
       }),
+    name: zod.string().min(6, {
+      message: CONSTANTS.ERROR_MESSAGE.NAME_NUM_OF_CHARACTERS_REQUIREMENT
+    }),
     email: zod
       .string({ message: CONSTANTS.ERROR_MESSAGE.EMAIL_REQUIRED })
       .trim()
@@ -22,29 +28,14 @@ export const signUpSchema = zod
       })
       .max(CONSTANTS.PASSWORD_LENGTH.MAX, {
         message: CONSTANTS.ERROR_MESSAGE.INVALID_PASSWORD
-      }),
-    confirmPassword: zod.string().optional()
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: CONSTANTS.ERROR_MESSAGE.PASSWORD_DID_NOT_MATCH,
-    path: ["confirmPassword"]
+      })
   })
   .readonly();
 
 export const signInSchema = zod
   .object({
-    email: zod
-      .string({ message: CONSTANTS.ERROR_MESSAGE.EMAIL_REQUIRED })
-      .trim()
-      .email({
-        message: CONSTANTS.ERROR_MESSAGE.INVALID_EMAIL
-      }),
-    password: zod
-      .string()
-      .min(1, {
-        message: CONSTANTS.ERROR_MESSAGE.PASSWORD_REQUIRED
-      })
-      .trim()
+    username: zod.string().trim(),
+    password: zod.string().trim()
   })
   .readonly();
 

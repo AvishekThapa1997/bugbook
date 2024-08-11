@@ -33,7 +33,6 @@ const PostEditor = () => {
     const post = editor?.getText({
       blockSeparator: "/n"
     });
-    console.log({ post });
     editor?.setEditable(false);
     await mutateAsync({
       content: post ?? ""

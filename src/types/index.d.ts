@@ -1,4 +1,4 @@
-import { SignInSchema } from "@/src/lib/validation";
+import { InputProps } from "../app/_components/ui";
 
 export interface BaseProps {
   className?: string;
@@ -25,3 +25,7 @@ export interface HashTag {
   id: string;
   name: string;
 }
+
+type InputEventAction<T> = {
+  [key in keyof T]: InputProps;
+};

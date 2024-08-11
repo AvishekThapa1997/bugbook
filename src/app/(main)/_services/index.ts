@@ -2,7 +2,7 @@ import "server-only";
 import { tryCatchWrapper } from "@/src/tryCatchWrapper";
 import { Result } from "@/src/types";
 import { mapUser, User } from "@/src/types/user";
-import { getLoggedInUser } from "../../(auth)/_service";
+import { getLoggedInUser } from "../../(auth)/_util";
 import { createSessionClient } from "@/src/lib/app-write";
 import { ServerError } from "@/src/error";
 import { Query } from "node-appwrite";

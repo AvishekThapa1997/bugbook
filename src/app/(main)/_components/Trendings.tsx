@@ -3,14 +3,16 @@ import { getUsers } from "../_services";
 import { CONSTANTS } from "@/src/constants";
 import { redirect } from "next/navigation";
 import { Box, Button } from "@/app/_components/ui";
-import { User } from "@/src/types/user";
+
 import Link from "next/link";
 import { UserAvatar } from "./UserAvatar";
 import UserFollowButton from "./UserFollowButton";
 import { getTrendingHashtags } from "../(posts)/services";
+import { userService } from "../users/_services";
+import { UserDto } from "../../dto/userDto";
 
 interface RecommenderUserProps {
-  user: User;
+  user: UserDto;
 }
 
 const Trendings = () => {
@@ -18,28 +20,26 @@ const Trendings = () => {
     <Box className='space-y-3'>
       <Suspense fallback={<p>loading...</p>}>
         <FollowRecommendations />
-        <TrendingHashTags />
+        {/* <TrendingHashTags /> */}
       </Suspense>
     </Box>
   );
 };
 
 const FollowRecommendations = async () => {
-  const { data: usersToFollow, error } = await getUsers({ limit: 5 });
-  if (
-    !usersToFollow &&
-    error?.code === CONSTANTS.ERROR_STATUS_CODE.UNAUTHORIZED
-  ) {
-    redirect("/signin");
+  const { data: users, error } = await userService.getUserRecommendations();
+  if (error && error.code === CONSTANTS.ERROR_STATUS_CODE.UNAUTHORIZED) {
+    redirect("/signin?message=Session expired.Please login again.");
   }
-  if (!usersToFollow && error) {
+  if (!error && !users) {
     return null;
   }
+
   return (
-    <Box className='space-y-3 rounded-xl bg-card p-3 shadow-sm md:p-4'>
+    <Box className='space-y-3 rounded-xl bg-card p-4 shadow-sm md:p-5'>
       <h2 className='text-xl font-bold'>Who to follow</h2>
       <Box className='space-y-3'>
-        {usersToFollow?.map((user) => (
+        {users?.map((user) => (
           <RecommenderUser
             user={user}
             key={user.id}
@@ -54,17 +54,20 @@ const RecommenderUser = ({ user }: RecommenderUserProps) => {
   return (
     <Box className='flex items-center justify-between'>
       <Link
-        href={`/users/${user.id}`}
+        href={`/users/${user.username}`}
         className='flex items-center gap-3'
       >
         <UserAvatar url={user.profileImage} />
-        <Box>
+        <Box className='space-y-0.5'>
           <p className='line-clamp-1 break-all font-semibold hover:underline'>
-            {user.name}
+            {user.displayName}
+          </p>
+          <p className='text-sm text-muted-foreground hover:underline'>
+            @{user.username}
           </p>
         </Box>
       </Link>
-      <UserFollowButton userId={user.id} />
+      <UserFollowButton userId={user.username} />
     </Box>
   );
 };

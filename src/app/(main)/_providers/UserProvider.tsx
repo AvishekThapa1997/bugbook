@@ -1,12 +1,12 @@
 "use client";
 
-import { User } from "@/src/types/user";
 import { createContext, PropsWithChildren } from "react";
+import { UserDto } from "../../dto/userDto";
 
-export const UserContext = createContext<User | null | undefined>(null);
+export const UserContext = createContext<UserDto | null | undefined>(null);
 
 interface UserProviderProps extends PropsWithChildren {
-  user?: User;
+  user?: UserDto;
 }
 
 export const UserProvider = ({ user, children }: UserProviderProps) => {

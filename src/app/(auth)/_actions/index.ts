@@ -1,49 +1,63 @@
 "use server";
-
 import { SignInSchema, SignUpSchema } from "@/src/lib/validation";
-import * as authService from "@/auth/_service";
 import { redirect, RedirectType } from "next/navigation";
-import { cookies } from "next/headers";
 import { CONSTANTS } from "@/src/constants";
+import { authService } from "../_service";
+import { IAuthService } from "../_service/IAuthService";
+import { Result } from "@/src/types";
 
-export const signUp = async (signUpSchema: SignUpSchema) => {
-  const { data, error } = await authService.signUpUser(signUpSchema);
-  const { user, session } = data ?? {};
-  if (user && session) {
-    cookies().set(CONSTANTS.SESSION.NAME, session.secret, {
-      path: "/",
-      httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-      expires: new Date(session.expiry)
-    });
-    redirect("/");
+class AuthActions {
+  constructor(private authService: IAuthService) {}
+  async signUp(signUpSchema: SignUpSchema) {
+    const { data, error } = await this.authService.signUpUser(signUpSchema);
+    if (data) {
+      redirect("/", RedirectType.replace);
+    }
+    return {
+      error
+    };
   }
-  return {
-    error
-  };
-};
 
-export const signIn = async (signInSchema: SignInSchema) => {
-  const { data, error } = await authService.signIn(signInSchema);
-  const { secret, expiry } = data ?? {};
-  if (secret && expiry) {
-    cookies().set(CONSTANTS.SESSION.NAME, secret, {
-      path: "/",
-      httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-      expires: new Date(expiry)
-    });
-    redirect("/");
+  async signIn(signInSchema: SignInSchema) {
+    const { data, error } = await this.authService.signIn(signInSchema);
+    if (data) {
+      redirect("/");
+    }
+    return {
+      error
+    };
   }
-  return {
-    error
-  };
-};
 
-export const signOut = async () => {
-  await authService.signOut();
-  cookies().delete(CONSTANTS.SESSION.NAME);
-  redirect("/signin", RedirectType.replace);
-};
+  async checkForUsernameAvailability(
+    username: string
+  ): Promise<Result<string>> {
+    const { data } =
+      await this.authService.checkForUsernameAvailability(username);
+    if (data) {
+      return {
+        error: {
+          code: CONSTANTS.ERROR_STATUS_CODE.CONFLICT,
+          message: CONSTANTS.ERROR_MESSAGE.USERNAME_IS_NOT_AVAILABLE
+        }
+      };
+    }
+    return {
+      data: `${username} is available.`
+    };
+  }
+
+  async signOut() {
+    const { error } = await this.authService.signOut();
+    if (error) {
+      return { error };
+    }
+    redirect("/signin");
+  }
+}
+
+const authActions = new AuthActions(authService);
+export const signUp = authActions.signUp.bind(authActions);
+export const signIn = authActions.signIn.bind(authActions);
+export const signOut = authActions.signOut.bind(authActions);
+export const checkForUsernameAvailability =
+  authActions.checkForUsernameAvailability.bind(authActions);

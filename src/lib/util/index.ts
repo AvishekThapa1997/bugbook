@@ -11,3 +11,5 @@ export const formatRelativeDate = (from: Date) => {
   }
   return formatDate(from, "MMM d, yyy");
 };
+
+export const isEmail = (input: string) => input.includes("@");

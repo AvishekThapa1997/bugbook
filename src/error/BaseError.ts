@@ -1,6 +1,6 @@
 class BaseError extends Error {
   constructor(
-    public code: number,
+    public code: number | string,
     message: string
   ) {
     super(message);
