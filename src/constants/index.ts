@@ -14,7 +14,14 @@ export const CONSTANTS = {
     INVALID_INPUTS: "One or more inputs are invalid.",
     INVALID_LOGIN_CREDENTIALS: "Invalid email/password.",
     POST_CONTENT_IS_REQUIRED: "Post content is required.",
-    POST_MAX_LENGTH: "Post can contain upto 10000 characters."
+    POST_MAX_LENGTH: "Post can contain upto 10000 characters.",
+    BAD_REQUEST: "Unable to process request."
+  },
+  ERROR_STATUS_CODE: {
+    UNAUTHORIZED: 401,
+    NOT_FOUND: 404,
+    SERVER_ERROR: 500,
+    BAD_REQUEST: 400
   },
   PASSWORD_LENGTH: {
     MIN: 8,

@@ -11,9 +11,11 @@ import {
 import { FieldError, Result } from "@/src/types";
 import { mapUser, User } from "@/src/types/user";
 
-import { tryCatchWrapper } from "@/src/util/tryCatchWrapper";
+import { tryCatchWrapper } from "@/src/tryCatchWrapper";
 import { ID } from "node-appwrite";
 import { cache } from "react";
+import { getResourceOwnerPermission } from "@/src/lib/app-write/permission";
+import { UnauthorizedError } from "@/src/error";
 
 export const signIn = tryCatchWrapper<
   Result<{ expiry: string; secret: string }>,
@@ -58,8 +60,18 @@ export const signUpUser = tryCatchWrapper<
     return { error: errors };
   }
   const { email, password, name } = parsedSignUpData;
-  const { account } = await createAdminClient();
+  const { account, database } = await createAdminClient();
   const appWriteUser = await account.create(ID.unique(), email, password, name);
+  await database.createDocument(
+    process.env.APPWRITE_DB_ID,
+    process.env.APPWRITE_USER_COLLECTION_ID,
+    appWriteUser.$id,
+    {
+      email: appWriteUser.email,
+      name: appWriteUser.name
+    },
+    getResourceOwnerPermission(appWriteUser.$id)
+  );
   const { data: sessioData } = await signIn({ email, password });
   const { expiry, secret } = sessioData!;
   const user = mapUser(appWriteUser);
@@ -78,12 +90,7 @@ export const getLoggedInUser = cache(
   tryCatchWrapper<Result<User>>(async () => {
     const { account } = await createSessionClient();
     if (!account) {
-      return {
-        error: {
-          code: 401,
-          message: CONSTANTS.ERROR_MESSAGE.NOT_AUTHORIZED
-        }
-      };
+      throw new UnauthorizedError();
     }
 
     const [_user, userSession] = await Promise.all([

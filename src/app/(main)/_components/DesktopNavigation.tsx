@@ -5,8 +5,10 @@ import { BaseProps } from "@/src/types";
 
 const DesktopNavigation = ({ className }: BaseProps) => {
   return (
-    <aside className={cn("hidden sm:block", className)}>
-      <Navigation className='stick top-[5.25rem] h-fit flex-none space-y-2 rounded-2xl px-3 py-5 lg:px-2.5' />
+    <aside
+      className={cn("sticky top-[5.25rem] hidden h-fit sm:block", className)}
+    >
+      <Navigation className='flex-none space-y-2 rounded-2xl p-3 md:p-4' />
     </aside>
   );
 };

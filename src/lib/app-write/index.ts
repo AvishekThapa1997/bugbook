@@ -35,6 +35,9 @@ export const createAdminClient = cache(async () => {
   return {
     get account() {
       return new Account(client);
+    },
+    get database() {
+      return new Databases(client);
     }
   };
 });

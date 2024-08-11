@@ -6,5 +6,8 @@ namespace NodeJS {
     APPWRITE_ENDPOINT: string;
     APPWRITE_KEY: string;
     APPWRITE_DB_ID: string;
+    APPWRITE_POST_COLLECTION_ID: string;
+    APPWRITE_USER_COLLECTION_ID: string;
+    APPWRITE_HASHTAG_COLLECTION_ID: string;
   }
 }

@@ -9,7 +9,7 @@ import { Eye, EyeOff } from "@/src/app/_components/icons";
 const PasswordInput = React.forwardRef<
   HTMLInputElement,
   Omit<InputProps, "type">
->(({ className, ...props }, ref) => {
+>(({ className, disabled, ...props }, ref) => {
   const [showPassword, setShowPassword] = useState(false);
   const handlePasswordVisibility = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -25,9 +25,10 @@ const PasswordInput = React.forwardRef<
       />
       <button
         title={showPassword ? "Hide password" : "Show password"}
-        className='absolute right-2 top-2/4 -translate-y-1/2'
+        className='absolute right-2 top-2/4 -translate-y-1/2 disabled:hover:cursor-not-allowed'
         type='button'
         onClick={handlePasswordVisibility}
+        disabled={disabled}
       >
         {showPassword ? (
           <EyeOff

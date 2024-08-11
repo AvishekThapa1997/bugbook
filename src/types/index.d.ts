@@ -20,3 +20,8 @@ export type FieldError<T> = {
 };
 
 export type AppRoute = "/" | "/messges" | "/notifications" | "/bookmarks";
+
+export interface HashTag {
+  id: string;
+  name: string;
+}

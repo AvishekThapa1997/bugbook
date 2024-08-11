@@ -16,7 +16,7 @@ const LoadingButton = ({
   return (
     <Button
       disabled={isLoading || disabled}
-      className={cn("flex items-center gap-2", className)}
+      className={cn("items-center gap-2", className)}
       {...props}
     >
       {isLoading && <Loader2 className='size-5 animate-spin' />}

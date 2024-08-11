@@ -1,5 +1,6 @@
 import { AppwriteException } from "node-appwrite";
 import { CONSTANTS } from "@/src/constants";
+import { BaseError } from "./error";
 
 const handleAppwriteError = (
   err: AppwriteException
@@ -38,8 +39,9 @@ const handleError = (err: unknown) => {
     errorData.error.message = message;
   } else if (typeof err === "string") {
     errorData.error.message = err;
-  } else if (err instanceof Error) {
+  } else if (err instanceof BaseError) {
     errorData.error.message = err.message;
+    errorData.error.code = err.code;
   }
   return errorData;
 };
