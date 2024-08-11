@@ -1,10 +1,12 @@
 "use server";
-import { SignInSchema, SignUpSchema } from "@/src/lib/validation";
+
 import { redirect, RedirectType } from "next/navigation";
-import { CONSTANTS } from "@/src/constants";
+
 import { authService } from "../_service";
 import { IAuthService } from "../_service/IAuthService";
-import { Result } from "@/src/types";
+import { SignInSchema, SignUpSchema } from "../../../lib/validation";
+import { Result } from "../../../types";
+import { CONSTANTS } from "../../../constants";
 
 class AuthActions {
   constructor(private authService: IAuthService) {}

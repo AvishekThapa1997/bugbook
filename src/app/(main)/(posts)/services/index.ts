@@ -1,15 +1,14 @@
-import { createSessionClient } from "@/src/lib/app-write";
-import { tryCatchWrapper } from "@/src/tryCatchWrapper";
-import "server-only";
-import { mapPost, Post } from "../types/posts";
-import { HashTag, Result } from "@/src/types";
-import { CreatePostSchema } from "@/src/lib/validation";
-import { ServerError, UnauthorizedError } from "@/src/error";
-import { Databases, ID, Permission, Query, Role } from "node-appwrite";
-import { getLoggedInUser } from "@/src/app/(auth)/_util";
-import { getResourceOwnerPermission } from "@/src/lib/app-write/permission";
 import { cache } from "react";
 import { extractHashTags } from "../util";
+import { tryCatchWrapper } from "../../../../tryCatchWrapper";
+import { HashTag, Result } from "../../../../types";
+import { mapPost, Post } from "../types/posts";
+import { getLoggedInUser } from "../../../(auth)/_util";
+import { createSessionClient } from "../../../../lib/app-write";
+import { ServerError, UnauthorizedError } from "../../../../error";
+import { Databases, ID, Permission, Query, Role } from "node-appwrite";
+import { CreatePostSchema } from "../../../../lib/validation";
+import { getResourceOwnerPermission } from "../../../../lib/app-write/permission";
 
 export const getPosts = cache(
   tryCatchWrapper<Result<Post[]>>(async () => {
@@ -26,9 +25,9 @@ export const getPosts = cache(
       process.env.APPWRITE_POST_COLLECTION_ID,
       [Query.orderDesc("$createdAt")]
     );
-    const posts = _posts.documents.map(mapPost);
+
     return {
-      data: posts
+      data: []
     };
   })
 );

@@ -3,11 +3,11 @@ import { PropsWithChildren } from "react";
 import { redirect } from "next/navigation";
 import { Header } from "./_components/Header";
 
-import { Box } from "@/app/_components/ui";
-import { DesktopNavigation } from "@/main/_components/DesktopNavigation";
-import { MobileNavigation } from "@/main/_components/MobileNavigation";
-import { UserProvider } from "@/main/_providers/UserProvider";
 import { getLoggedInUser } from "../(auth)/_util";
+import { UserProvider } from "./_providers";
+import { Box } from "../_components/ui";
+import { DesktopNavigation } from "./_components/DesktopNavigation";
+import { MobileNavigation } from "./_components/MobileNavigation";
 
 const MainLayout = async ({ children }: PropsWithChildren) => {
   const { data } = await getLoggedInUser();

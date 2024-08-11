@@ -1,11 +1,12 @@
 import "server-only";
-import { tryCatchWrapper } from "@/src/tryCatchWrapper";
-import { Result } from "@/src/types";
-import { mapUser, User } from "@/src/types/user";
+
 import { getLoggedInUser } from "../../(auth)/_util";
-import { createSessionClient } from "@/src/lib/app-write";
-import { ServerError } from "@/src/error";
 import { Query } from "node-appwrite";
+import { tryCatchWrapper } from "../../../tryCatchWrapper";
+import { Result } from "../../../types";
+import { User } from "../../../types/user";
+import { createSessionClient } from "../../../lib/app-write";
+import { ServerError } from "../../../error";
 
 export const getUsers = tryCatchWrapper<Result<User[]>, { limit: number }>(
   async ({ limit }) => {
@@ -22,9 +23,7 @@ export const getUsers = tryCatchWrapper<Result<User[]>, { limit: number }>(
       process.env.APPWRITE_USER_COLLECTION_ID,
       [Query.notEqual("$id", user.id), Query.limit(limit)]
     );
-    const users = _users.documents.map(mapUser);
-    return {
-      data: users
-    };
+
+    return {};
   }
 );

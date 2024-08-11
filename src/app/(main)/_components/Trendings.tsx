@@ -1,8 +1,6 @@
 import React, { Suspense } from "react";
-import { getUsers } from "../_services";
-import { CONSTANTS } from "@/src/constants";
+
 import { redirect } from "next/navigation";
-import { Box, Button } from "@/app/_components/ui";
 
 import Link from "next/link";
 import { UserAvatar } from "./UserAvatar";
@@ -10,6 +8,8 @@ import UserFollowButton from "./UserFollowButton";
 import { getTrendingHashtags } from "../(posts)/services";
 import { userService } from "../users/_services";
 import { UserDto } from "../../dto/userDto";
+import { Box } from "../../_components/ui";
+import { CONSTANTS } from "../../../constants";
 
 interface RecommenderUserProps {
   user: UserDto;

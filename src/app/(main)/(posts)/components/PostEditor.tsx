@@ -1,18 +1,13 @@
 "use client";
-import React, { ComponentProps, useRef } from "react";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  LoadingButton
-} from "@/src/app/_components/ui";
-import { UserAvatar } from "@/app/(main)/_components/UserAvatar";
+import React, { ComponentProps } from "react";
+
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import "./post-editor.css";
 import { useCreatePost } from "../hooks";
+import { Box, Card, CardContent, LoadingButton } from "../../../_components/ui";
+import { UserAvatar } from "../../_components/UserAvatar";
 
 const PostEditor = () => {
   const { mutateAsync, isPending } = useCreatePost();

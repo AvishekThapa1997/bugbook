@@ -7,8 +7,6 @@ import { redirect, RedirectType } from "next/navigation";
 import { Box } from "../../_components/ui";
 import { RightSidebar } from "../_components/RightSidebar";
 
-import { CONSTANTS } from "@/src/constants";
-
 export default async function Home() {
   return (
     <ProtectedPage>

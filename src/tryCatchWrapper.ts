@@ -1,6 +1,7 @@
 import { AppwriteException } from "node-appwrite";
-import { CONSTANTS } from "@/src/constants";
+
 import { BaseError } from "./error";
+import { CONSTANTS } from "./constants";
 
 const handleAppwriteError = (
   err: AppwriteException

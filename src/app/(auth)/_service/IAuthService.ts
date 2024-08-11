@@ -1,6 +1,6 @@
-import { SignInSchema, SignUpSchema } from "@/src/lib/validation";
-import { FieldError, Result } from "@/src/types";
-import { UserDto } from "@/app/dto/userDto";
+import { SignInSchema, SignUpSchema } from "../../../lib/validation";
+import { FieldError, Result } from "../../../types";
+import { UserDto } from "../../dto/userDto";
 
 export interface IAuthService {
   signUpUser: (
