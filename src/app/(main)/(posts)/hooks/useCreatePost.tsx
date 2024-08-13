@@ -1,6 +1,6 @@
-import { useMutationHandler } from "@/src/lib/react-query";
+import { useMutationHandler } from "../../../../lib/react-query";
+import { CreatePostSchema } from "../../../../lib/validation";
 import { createPost } from "../actions";
-import { CreatePostSchema } from "@/src/lib/validation";
 
 export const useCreatePost = () => {
   return useMutationHandler({

@@ -1,10 +1,12 @@
 import { Metadata } from "next";
 import React from "react";
-import { Box } from "@/app/_components/ui";
+
 import Image from "next/image";
 import loginImage from "@/src/assets/image/login-image.webp";
-import { SignInForm } from "@/auth/_components/SignInForm";
+
 import Link from "next/link";
+import { Box } from "../../_components/ui";
+import { SignInForm } from "../_components/SignInForm";
 
 export const metadata = {
   title: "Sign in"

@@ -1,7 +1,7 @@
 import React, { ComponentProps } from "react";
 import { Button } from "./Button";
-import { cn } from "@/src/lib";
-import { Loader2 } from "@/src/app/_components/icons";
+import { cn } from "../../../lib";
+import { Loader2 } from "../icons";
 
 interface LoadingButtonProps extends ComponentProps<typeof Button> {
   isLoading: boolean;

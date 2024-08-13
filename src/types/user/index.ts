@@ -1,5 +1,4 @@
-import { AppwriteUser } from "@/src/lib/app-write/types";
-import { Models } from "node-appwrite";
+import { AppwriteUser } from "../../lib/app-write/types";
 export interface User {
   id: string;
   email: string;

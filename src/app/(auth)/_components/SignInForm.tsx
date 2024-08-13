@@ -1,7 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema, SignInSchema } from "@/src/lib/validation";
-import { BaseProps } from "@/src/types";
+
 import React from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -15,14 +14,16 @@ import {
   Input,
   LoadingButton,
   PasswordInput
-} from "@/app/_components/ui";
-import { cn } from "@/src/lib";
+} from "../../_components/ui";
 
-import { useIsClient } from "@/app/_hooks";
-import { InputField } from "@/src/app/(auth)/_types";
-import { useUserSignIn } from "@/auth/_hooks";
-import { CONSTANTS } from "@/src/constants";
-import { ErrorMessage } from "@/app/_components/common/ErrorMessage";
+import { useIsClient } from "../../_hooks";
+import { InputField } from "../_types";
+import { useUserSignIn } from "../_hooks";
+import { CONSTANTS } from "../../../constants";
+import { ErrorMessage } from "../../_components/common/ErrorMessage";
+import { cn } from "../../../lib";
+import { signInSchema, SignInSchema } from "../../../lib/validation";
+import { BaseProps } from "../../../types";
 
 const loginFields = [
   {

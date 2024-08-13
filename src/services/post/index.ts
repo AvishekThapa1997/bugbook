@@ -1,14 +1,14 @@
 import { cache } from "react";
-import { extractHashTags } from "../util";
-import { tryCatchWrapper } from "../../../../tryCatchWrapper";
-import { HashTag, Result } from "../../../../types";
-import { mapPost, Post } from "../types/posts";
-import { getLoggedInUser } from "../../../(auth)/_util";
-import { createSessionClient } from "../../../../lib/app-write";
-import { ServerError, UnauthorizedError } from "../../../../error";
+import { extractHashTags } from "../../app/(main)/(posts)/util";
+import { tryCatchWrapper } from "../../tryCatchWrapper";
+import { HashTag, Result } from "../../types";
+import { mapPost, Post } from "../../app/(main)/(posts)/types/posts";
+import { getLoggedInUser } from "../../app/(auth)/_util";
+import { createSessionClient } from "../../lib/app-write";
+import { ServerError, UnauthorizedError } from "../../error";
 import { Databases, ID, Permission, Query, Role } from "node-appwrite";
-import { CreatePostSchema } from "../../../../lib/validation";
-import { getResourceOwnerPermission } from "../../../../lib/app-write/permission";
+import { CreatePostSchema } from "../../lib/validation";
+import { getResourceOwnerPermission } from "../../lib/app-write/permission";
 
 export const getPosts = cache(
   tryCatchWrapper<Result<Post[]>>(async () => {

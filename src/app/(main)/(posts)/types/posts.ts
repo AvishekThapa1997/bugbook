@@ -1,5 +1,5 @@
-import { User } from "@/src/types/user";
 import { Models } from "node-appwrite";
+import { User } from "../../../../types/user";
 
 export interface Post {
   id: string;

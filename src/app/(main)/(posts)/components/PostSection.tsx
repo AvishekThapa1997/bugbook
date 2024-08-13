@@ -1,4 +1,4 @@
-import { getPosts } from "../services";
+import { getPosts } from "../../../../services/post";
 import Posts from "./Posts";
 
 const PostSection = async () => {

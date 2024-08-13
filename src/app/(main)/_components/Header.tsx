@@ -1,7 +1,7 @@
 import React from "react";
-import { Logo } from "./Logo";
 import { UserButton } from "./UserButton";
 import { GlobalSearchField } from "./GlobalSearchField";
+import Link from "next/link";
 
 const Header = () => {
   return (
@@ -12,6 +12,17 @@ const Header = () => {
         <UserButton className='sm:ms-auto' />
       </div>
     </header>
+  );
+};
+
+const Logo = () => {
+  return (
+    <Link
+      href='/'
+      className='text-2xl font-bold text-primary'
+    >
+      bugbook{" "}
+    </Link>
   );
 };
 

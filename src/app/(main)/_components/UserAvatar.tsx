@@ -1,8 +1,9 @@
-import { BaseProps } from "@/src/types";
 import React from "react";
-import avatarPlaceholder from "@/src/assets/image/avatar-placeholder.webp";
-import { cn } from "@/src/lib";
+import avatarPlaceholder from "../../../assets/image/avatar-placeholder.webp";
+
 import Image from "next/image";
+import { BaseProps } from "../../../types";
+import { cn } from "../../../lib";
 
 interface UserAvatarProps extends BaseProps {
   url?: string | null;

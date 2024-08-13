@@ -1,21 +1,21 @@
-import { IUserService, userService } from "../../(main)/users/_services";
-import { CONSTANTS } from "../../../constants";
-import { UnauthorizedError } from "../../../error";
-import { BadRequestError } from "../../../error/BadRequestError";
-import { EmailOrUsernameAlreadyExistError } from "../../../error/EmailOrUsernameAlreadyExistError";
-import { InvalidCredentials } from "../../../error/InvalidCredentials";
-import { handleError } from "../../../handleError";
-import { SupabaseClient } from "../../../lib/supabase/SupabaseClient";
-import { isEmail } from "../../../lib/util";
+import { IUserService, userService } from "../user";
+import { CONSTANTS } from "../../constants";
+import { UnauthorizedError } from "../../error";
+import { BadRequestError } from "../../error/BadRequestError";
+import { EmailOrUsernameAlreadyExistError } from "../../error/EmailOrUsernameAlreadyExistError";
+import { InvalidCredentials } from "../../error/InvalidCredentials";
+import { handleError } from "../../handleError";
+import { SupabaseClient } from "../../lib/supabase/SupabaseClient";
+import { isEmail } from "../../lib/util";
 import {
   parseSchema,
   signInSchema,
   SignInSchema,
   signUpSchema,
   SignUpSchema
-} from "../../../lib/validation";
-import { FieldError, Result } from "../../../types";
-import { UserDto } from "../../dto/userDto";
+} from "../../lib/validation";
+import { FieldError, Result } from "../../types";
+import { UserDto } from "../../app/dto/userDto";
 import { IAuthService } from "./IAuthService";
 
 class SupabaseAuthServiceImpl extends SupabaseClient implements IAuthService {

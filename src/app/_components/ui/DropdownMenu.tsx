@@ -7,8 +7,7 @@ import {
   ChevronRightIcon,
   DotFilledIcon
 } from "@radix-ui/react-icons";
-
-import { cn } from "@/src/lib/class";
+import { cn } from "../../../lib";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 

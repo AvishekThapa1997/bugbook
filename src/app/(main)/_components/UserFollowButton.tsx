@@ -1,7 +1,7 @@
 "use client";
 import React, { ComponentProps } from "react";
-import { LoadingButton } from "@/app/_components/ui";
-import { cn } from "@/src/lib";
+import { LoadingButton } from "../../_components/ui";
+import { cn } from "../../../lib";
 
 interface UserFollowButtonProps
   extends Omit<ComponentProps<typeof LoadingButton>, "isLoading"> {

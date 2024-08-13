@@ -1,10 +1,10 @@
 "use client";
-import { AppRoute, BaseProps } from "@/src/types";
-import React from "react";
-import { Button } from "@/app/_components/ui";
-import { cn } from "@/src/lib";
+
 import Link from "next/link";
-import { useCheckActiveRoute } from "@/main/_hooks";
+import { AppRoute, BaseProps } from "../../../types";
+import { useCheckActiveRoute } from "../_hooks";
+import { Button } from "../../_components/ui";
+import { cn } from "../../../lib";
 
 interface NavigationItemProps extends BaseProps {
   title: string;

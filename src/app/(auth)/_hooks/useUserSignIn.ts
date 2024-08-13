@@ -1,5 +1,5 @@
-import { useMutationHandler } from "@/src/lib/react-query";
-import { SignInSchema } from "@/src/lib/validation";
+import { useMutationHandler } from "../../../lib/react-query";
+import { SignInSchema } from "../../../lib/validation";
 import { useAuthAdapter } from "./useAuthAdapter";
 
 export const useUserSignIn = () => {

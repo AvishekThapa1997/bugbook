@@ -1,4 +1,4 @@
-import { useMutationHandler } from "@/src/lib/react-query";
+import { useMutationHandler } from "../../../lib/react-query";
 import { useAuthAdapter } from "./useAuthAdapter";
 
 export const useCheckForUsernameAvailability = () => {

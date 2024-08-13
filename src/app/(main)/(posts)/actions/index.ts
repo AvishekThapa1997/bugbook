@@ -1,12 +1,11 @@
 "use server";
 
-import { CreatePostSchema } from "@/src/lib/validation";
-
-import * as postService from "../services";
-import { CONSTANTS } from "@/src/constants";
+import * as postService from "../../../../services/post";
 
 import { redirect, RedirectType } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { CONSTANTS } from "../../../../constants";
+import { CreatePostSchema } from "../../../../lib/validation";
 
 export const createPost = async (createPostData: CreatePostSchema) => {
   const { data, error } = await postService.createPost(createPostData);

@@ -1,8 +1,9 @@
 "use server";
 import { Client, Account, Databases } from "node-appwrite";
 import { cookies } from "next/headers";
-import { CONSTANTS } from "@/src/constants";
+
 import { cache } from "react";
+import { CONSTANTS } from "../../constants";
 
 export const createSessionClient = cache(async () => {
   const client = new Client()

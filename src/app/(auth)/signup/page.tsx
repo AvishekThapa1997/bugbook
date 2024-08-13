@@ -1,10 +1,11 @@
 import { Metadata } from "next";
 import React from "react";
-import { Box } from "@/app/_components/ui";
+
 import Image from "next/image";
 import signUpImage from "@/src/assets/image/signup-image.webp";
 import Link from "next/link";
 import { SignUpForm } from "../_components/SignUpForm";
+import { Box } from "../../_components/ui";
 
 export const metadata = {
   title: "Sign up"

@@ -1,16 +1,4 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema, SignUpSchema } from "@/src/lib/validation";
-import { BaseProps, InputEventAction } from "@/src/types";
-import React, {
-  ComponentProps,
-  HTMLInputTypeAttribute,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from "react";
-import { useForm } from "react-hook-form";
 import {
   Box,
   Form,
@@ -20,18 +8,21 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  InputProps,
   LoadingButton,
   PasswordInput
-} from "@/app/_components/ui";
-import { cn } from "@/src/lib";
+} from "../../_components/ui";
 
-import { useIsClient } from "@/app/_hooks";
-import { InputField } from "@/src/app/(auth)/_types";
-
-import { CONSTANTS } from "@/src/constants";
-import { ErrorMessage } from "@/app/_components/common/ErrorMessage";
-import { useCheckForUsernameAvailability, useUserSignUp } from "@/auth/_hooks";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { InputField } from "../_types";
+import { BaseProps, InputEventAction } from "../../../types";
+import { useIsClient } from "../../_hooks";
+import { signUpSchema, SignUpSchema } from "../../../lib/validation";
+import { CONSTANTS } from "../../../constants";
+import { useCheckForUsernameAvailability, useUserSignUp } from "../_hooks";
+import { ErrorMessage } from "../../_components/common/ErrorMessage";
+import { cn } from "../../../lib";
 
 const signUpFields = [
   {

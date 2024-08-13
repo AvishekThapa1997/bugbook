@@ -1,8 +1,8 @@
-import { AppRoute, BaseProps } from "@/src/types";
 import { Bell, Bookmark, Home, Mail } from "lucide-react";
 import React from "react";
 import { NavigationItem } from "./NavigationItem";
-import { cn } from "@/src/lib";
+import { AppRoute, BaseProps } from "../../../types";
+import { cn } from "../../../lib";
 
 interface NavigationItem {
   title: string;

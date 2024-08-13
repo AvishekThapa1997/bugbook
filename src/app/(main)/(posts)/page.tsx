@@ -1,9 +1,6 @@
 export const dynamic = "force-dynamic";
 import { ProtectedPage } from "../_components/ProtectedPage";
 import { PostEditor } from "./components/PostEditor";
-import { PostSection } from "./components/PostSection";
-import { Suspense } from "react";
-import { redirect, RedirectType } from "next/navigation";
 import { Box } from "../../_components/ui";
 import { RightSidebar } from "../_components/RightSidebar";
 

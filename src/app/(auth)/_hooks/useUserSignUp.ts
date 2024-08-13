@@ -1,6 +1,6 @@
-import { useMutationHandler } from "@/src/lib/react-query";
-import { signUp } from "@/auth/_actions";
-import { SignUpSchema } from "@/src/lib/validation";
+import { useMutationHandler } from "../../../lib/react-query";
+import { SignUpSchema } from "../../../lib/validation";
+import { signUp } from "../_actions";
 
 export const useUserSignUp = () => {
   return useMutationHandler({

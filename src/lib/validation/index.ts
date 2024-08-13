@@ -1,6 +1,5 @@
-import { CONSTANTS } from "@/src/constants";
-import { FieldError } from "@/src/types";
 import zod, { ZodError, ZodSchema } from "zod";
+import { CONSTANTS } from "../../constants";
 
 export const signUpSchema = zod
   .object({

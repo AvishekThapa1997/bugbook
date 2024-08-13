@@ -1,6 +1,6 @@
-import { AppRoute } from "@/src/types";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import { AppRoute } from "../../../types";
 
 export const useCheckActiveRoute = (currentRoute: AppRoute) => {
   const pathname = usePathname();

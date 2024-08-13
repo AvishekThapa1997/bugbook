@@ -1,5 +1,5 @@
-import { Result } from "../../../../types";
-import { UserDto } from "../../../dto/userDto";
+import { Result } from "../../types";
+import { UserDto } from "../../app/dto/userDto";
 
 export interface IUserService {
   getUserDetails({

@@ -2,8 +2,8 @@
 
 import { redirect, RedirectType } from "next/navigation";
 
-import { authService } from "../_service";
-import { IAuthService } from "../_service/IAuthService";
+import { authService } from "../../../services/auth";
+import { IAuthService } from "../../../services/auth/IAuthService";
 import { SignInSchema, SignUpSchema } from "../../../lib/validation";
 import { Result } from "../../../types";
 import { CONSTANTS } from "../../../constants";
@@ -58,8 +58,11 @@ class AuthActions {
 }
 
 const authActions = new AuthActions(authService);
-export const signUp = authActions.signUp.bind(authActions);
-export const signIn = authActions.signIn.bind(authActions);
-export const signOut = authActions.signOut.bind(authActions);
-export const checkForUsernameAvailability =
+export const signUp: typeof authActions.signUp =
+  authActions.signUp.bind(authActions);
+export const signIn: typeof authActions.signIn =
+  authActions.signIn.bind(authActions);
+export const signOut: typeof authActions.signOut =
+  authActions.signOut.bind(authActions);
+export const checkForUsernameAvailability: typeof authActions.checkForUsernameAvailability =
   authActions.checkForUsernameAvailability.bind(authActions);

@@ -2,10 +2,10 @@
 import React, { useState } from "react";
 import { Input, InputProps } from "./Input";
 
-import { cn } from "@/src/lib";
 import { Box } from "./Box";
-import { Button } from "./Button";
-import { Eye, EyeOff } from "@/src/app/_components/icons";
+import { cn } from "../../../lib";
+import { EyeOff, Eye } from "../icons";
+
 const PasswordInput = React.forwardRef<
   HTMLInputElement,
   Omit<InputProps, "type">

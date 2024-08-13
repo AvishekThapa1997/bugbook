@@ -1,8 +1,8 @@
-import { BadRequestError } from "../../../../error/BadRequestError";
-import { handleError } from "../../../../handleError";
-import { SupabaseClient } from "../../../../lib/supabase/SupabaseClient";
-import { Result } from "../../../../types";
-import { UserDto } from "../../../dto/userDto";
+import { BadRequestError } from "../../error/BadRequestError";
+import { handleError } from "../../handleError";
+import { SupabaseClient } from "../../lib/supabase/SupabaseClient";
+import { Result } from "../../types";
+import { UserDto } from "../../app/dto/userDto";
 import { IUserService } from "./IUserService";
 
 class SupabaseUserServiceImpl extends SupabaseClient implements IUserService {

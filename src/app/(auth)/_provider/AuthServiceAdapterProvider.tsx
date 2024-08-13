@@ -1,7 +1,7 @@
 "use client";
-import { SignInSchema, SignUpSchema } from "@/src/lib/validation";
+
+import { SignInSchema, SignUpSchema } from "../../../lib/validation";
 import {
-  signOut,
   signUp,
   signIn,
   checkForUsernameAvailability as _checkForUsernameAvailability

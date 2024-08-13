@@ -1,14 +1,14 @@
 "use client";
 
 import React from "react";
-
-import { BaseProps } from "@/src/types";
-import { Box, Card, CardContent, CardHeader } from "@/src/app/_components/ui";
-import { cn } from "@/src/lib";
 import Link from "next/link";
-import { UserAvatar } from "@/app/(main)/_components/UserAvatar";
-import { formatRelativeDate } from "@/src/lib/util";
+
 import { Post } from "../types/posts";
+import { BaseProps } from "../../../../types";
+import { Box, Card, CardContent, CardHeader } from "../../../_components/ui";
+import { cn } from "../../../../lib";
+import { UserAvatar } from "../../_components/UserAvatar";
+import { formatRelativeDate } from "../../../../lib/util";
 
 interface PostsProps extends BaseProps {
   posts: Post[];

@@ -1,11 +1,13 @@
 "use client";
 
 import { CircleXIcon, SearchIcon } from "lucide-react";
-import { Box, Input } from "@/app/_components/ui";
+
 import React, { useState } from "react";
-import { BaseProps } from "@/src/types";
-import { cn } from "@/src/lib";
+
 import { useRouter } from "next/navigation";
+import { BaseProps } from "../../../types";
+import { Box, Input } from "../../_components/ui";
+import { cn } from "../../../lib";
 
 const GlobalSearchField = ({ className }: BaseProps) => {
   const [query, setQuery] = useState("");

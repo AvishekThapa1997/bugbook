@@ -1,6 +1,5 @@
 "use client";
 
-import { BaseProps } from "@/src/types";
 import {
   Button,
   DropdownMenu,
@@ -14,14 +13,16 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
-} from "@/app/_components/ui";
-import { UserAvatar } from "@/main/_components/UserAvatar";
+} from "../../_components/ui";
+
 import Link from "next/link";
-import { LogOut, Monitor, Moon, Sun, UserIcon } from "lucide-react";
-import { cn } from "@/src/lib";
-import { useAppTheme } from "@/app/_hooks";
-import { signOut } from "@/auth/_actions";
-import { useUser } from "@/auth/_hooks";
+import { LogOut, Monitor, Moon, Sun, UserIcon } from "../../_components/icons";
+import { useUser } from "../../(auth)/_hooks";
+import { useAppTheme } from "../../_hooks";
+import { cn } from "../../../lib";
+import { UserAvatar } from "./UserAvatar";
+import { signOut } from "../../(auth)/_actions";
+import { BaseProps } from "../../../types";
 
 const UserButton = ({ className }: BaseProps) => {
   const user = useUser();

@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigation } from "./Navigation";
-import { cn } from "@/src/lib";
-import { BaseProps } from "@/src/types";
+import { BaseProps } from "../../../types";
+import { cn } from "../../../lib";
 
 const DesktopNavigation = ({ className }: BaseProps) => {
   return (
