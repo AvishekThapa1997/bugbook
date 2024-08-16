@@ -8,7 +8,13 @@
     "start": "next start",
     "lint": "next lint --max-warnings 0 ./src",
     "format": "prettier ./src --write ",
-    "prepare": "husky && husky install"
+    "prepare": "husky && husky install",
+    "supabase:init": "supabase init --workdir=./src/lib/",
+    "supabase:start": "supabase start --workdir=./src/lib/",
+    "supabase:stop": "supabase stop --workdir=./src/lib/",
+    "supabase:gen-types": "supabase gen types --lang=typescript --local > ./src/lib/supabase/database/database.types.ts --workdir=./src/lib/",
+    "migration": "cross-env-shell \"supabase migration new $npm_config_name\" --workdir=./src/lib/",
+    "migrate": "supabase migration up --workdir=./src/lib/"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -59,6 +65,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cross-env": "^7.0.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "eslint-config-prettier": "^9.1.0",

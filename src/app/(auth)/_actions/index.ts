@@ -7,10 +7,12 @@ import { IAuthService } from "../../../services/auth/IAuthService";
 import { SignInSchema, SignUpSchema } from "../../../lib/validation";
 import { Result } from "../../../types";
 import { CONSTANTS } from "../../../constants";
+import { AuthAdapter } from "../_provider";
 
-class AuthActions {
+class AuthActions implements AuthAdapter {
   constructor(private authService: IAuthService) {}
-  async signUp(signUpSchema: SignUpSchema) {
+
+  async signUpUser(signUpSchema: SignUpSchema) {
     const { data, error } = await this.authService.signUpUser(signUpSchema);
     if (data) {
       redirect("/", RedirectType.replace);
@@ -20,7 +22,7 @@ class AuthActions {
     };
   }
 
-  async signIn(signInSchema: SignInSchema) {
+  async signInUser(signInSchema: SignInSchema) {
     const { data, error } = await this.authService.signIn(signInSchema);
     if (data) {
       redirect("/");
@@ -30,9 +32,7 @@ class AuthActions {
     };
   }
 
-  async checkForUsernameAvailability(
-    username: string
-  ): Promise<Result<string>> {
+  async checkUsernameAvailablity(username: string): Promise<Result<string>> {
     const { data } =
       await this.authService.checkForUsernameAvailability(username);
     if (data) {
@@ -58,11 +58,11 @@ class AuthActions {
 }
 
 const authActions = new AuthActions(authService);
-export const signUp: typeof authActions.signUp =
-  authActions.signUp.bind(authActions);
-export const signIn: typeof authActions.signIn =
-  authActions.signIn.bind(authActions);
+export const signUp: typeof authActions.signUpUser =
+  authActions.signUpUser.bind(authActions);
+export const signIn: typeof authActions.signInUser =
+  authActions.signInUser.bind(authActions);
 export const signOut: typeof authActions.signOut =
   authActions.signOut.bind(authActions);
-export const checkForUsernameAvailability: typeof authActions.checkForUsernameAvailability =
-  authActions.checkForUsernameAvailability.bind(authActions);
+export const checkForUsernameAvailability: typeof authActions.checkUsernameAvailablity =
+  authActions.checkUsernameAvailablity.bind(authActions);

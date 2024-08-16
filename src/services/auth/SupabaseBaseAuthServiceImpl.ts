@@ -5,7 +5,7 @@ import { BadRequestError } from "../../error/BadRequestError";
 import { EmailOrUsernameAlreadyExistError } from "../../error/EmailOrUsernameAlreadyExistError";
 import { InvalidCredentials } from "../../error/InvalidCredentials";
 import { handleError } from "../../handleError";
-import { SupabaseClient } from "../../lib/supabase/SupabaseClient";
+import { SupabaseClient } from "../../lib/supabase/client/SupabaseClient";
 import { isEmail } from "../../lib/util";
 import {
   parseSchema,
@@ -14,7 +14,7 @@ import {
   signUpSchema,
   SignUpSchema
 } from "../../lib/validation";
-import { FieldError, Result } from "../../types";
+import { ErrorData, FieldError, Result } from "../../types";
 import { UserDto } from "../../app/dto/userDto";
 import { IAuthService } from "./IAuthService";
 
@@ -76,16 +76,19 @@ class SupabaseAuthServiceImpl extends SupabaseClient implements IAuthService {
       }
       if (existingUserResult.data?.username === username) {
         if (result.error) {
-          result.error = [
-            {
-              field: "email",
-              message: CONSTANTS.ERROR_MESSAGE.EMAIL_ID_IS_ALREADY_REGISTERED
-            },
-            {
-              field: "username",
-              message: CONSTANTS.ERROR_MESSAGE.USERNAME_IS_NOT_AVAILABLE
-            }
-          ];
+          const _error: FieldError<SignUpSchema> = {
+            field: "username",
+            message: CONSTANTS.ERROR_MESSAGE.USERNAME_IS_NOT_AVAILABLE
+          };
+          result.error = result.error
+            ? [
+                {
+                  field: "email",
+                  message: (result.error as ErrorData).message
+                },
+                _error
+              ]
+            : _error;
           return result;
         }
         throw new EmailOrUsernameAlreadyExistError(
@@ -96,12 +99,12 @@ class SupabaseAuthServiceImpl extends SupabaseClient implements IAuthService {
         return result;
       }
       const { data, error } = await supabaseClient.auth.signUp({
-        email,
+        email: email.toLocaleLowerCase(),
         password,
         options: {
           data: {
             display_name: name,
-            username
+            username: username.toLocaleLowerCase()
           }
         }
       });

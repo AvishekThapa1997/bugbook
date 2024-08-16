@@ -1,11 +1,27 @@
-import React, { Suspense } from "react";
-import { Trendings } from "./Trendings";
+"use client";
+import { useTrendingTopics } from "../(posts)/_hooks";
+import { useUserRecommendations } from "../users/_hooks/useUserRecommendations";
+import { FollowRecommendations } from "./FollowRecommendations";
+import { TrendingTopics } from "./TrendingTopics";
 
 const RightSidebar = () => {
+  const { isUserRecommendationsGettingFetched, userRecommendations } =
+    useUserRecommendations();
+  const { isTrendingTopicsGettingFetched, trendingTopics } =
+    useTrendingTopics();
+  const isFetching =
+    isUserRecommendationsGettingFetched || isTrendingTopicsGettingFetched;
+  if (isFetching) {
+    return <p>Loading...</p>;
+  }
+  if (!isFetching && !userRecommendations && !trendingTopics) {
+    return null;
+  }
   return (
-    <aside className='sticky top-[5.25rem] hidden h-fit w-72 flex-none space-y-4 md:block lg:w-80'>
-      <Trendings />
-    </aside>
+    <>
+      <FollowRecommendations userRecommendations={userRecommendations} />
+      <TrendingTopics trendingTopics={trendingTopics} />
+    </>
   );
 };
 

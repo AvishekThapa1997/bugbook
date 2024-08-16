@@ -8,6 +8,7 @@ import { UserProvider } from "./_providers";
 import { Box } from "../_components/ui";
 import { DesktopNavigation } from "./_components/DesktopNavigation";
 import { MobileNavigation } from "./_components/MobileNavigation";
+import { UserServiceAdapterProvider } from "./users/_provider/UserServiceAdapterProvider";
 
 const MainLayout = async ({ children }: PropsWithChildren) => {
   const { data } = await getLoggedInUser();
@@ -19,7 +20,9 @@ const MainLayout = async ({ children }: PropsWithChildren) => {
       <Header />
       <Box className='mx-auto flex max-w-7xl grow gap-5 p-5'>
         <DesktopNavigation className='xl:basis-72' />
-        <main className='flex-grow'>{children}</main>
+        <UserServiceAdapterProvider>
+          <main className='flex-grow'>{children}</main>
+        </UserServiceAdapterProvider>
       </Box>
       <MobileNavigation />
     </UserProvider>

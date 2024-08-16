@@ -1,17 +1,18 @@
 import { BadRequestError } from "../../error/BadRequestError";
 import { handleError } from "../../handleError";
-import { SupabaseClient } from "../../lib/supabase/SupabaseClient";
 import { Result } from "../../types";
 import { UserDto } from "../../app/dto/userDto";
 import { IUserService } from "./IUserService";
+import { BaseService } from "../base";
 
-class SupabaseUserServiceImpl extends SupabaseClient implements IUserService {
+class SupabaseUserServiceImpl extends BaseService implements IUserService {
   constructor() {
     super();
   }
   async getUserRecommendations() {
     const result: Result<UserDto[]> = {};
     try {
+      await this.getLoggedInUser();
       const supabaseClient = this.getClient();
       const { data, error } = await supabaseClient.rpc(
         "get_user_recommendations"
@@ -47,11 +48,11 @@ class SupabaseUserServiceImpl extends SupabaseClient implements IUserService {
       if (!username && !email) {
         throw new BadRequestError();
       }
+      await this.getLoggedInUser();
       const supabaseClient = this.getClient();
-
       const check = [
-        username ? `username.eq.${username ?? ""}` : "",
-        email ? `email.eq.${email ?? ""}` : ""
+        username ? `username.eq.${username.toLocaleLowerCase() ?? ""}` : "",
+        email ? `email.eq.${email.toLocaleLowerCase() ?? ""}` : ""
       ]
         .filter(Boolean)
         .join(",");

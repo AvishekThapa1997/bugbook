@@ -5,11 +5,11 @@ import { cn } from "../../../lib";
 
 interface UserFollowButtonProps
   extends Omit<ComponentProps<typeof LoadingButton>, "isLoading"> {
-  userId: string;
+  username: string;
 }
 
 const UserFollowButton = ({
-  userId,
+  username: userId,
   className,
   ...props
 }: UserFollowButtonProps) => {

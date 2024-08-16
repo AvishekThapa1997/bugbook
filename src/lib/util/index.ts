@@ -13,3 +13,16 @@ export const formatRelativeDate = (from: Date) => {
 };
 
 export const isEmail = (input: string) => input.includes("@");
+
+export const sleep = (delay: number) => {
+  return new Promise((res, rej) => {
+    setTimeout(res, delay);
+  });
+};
+
+export const formatNumber = (n: number) => {
+  return Intl.NumberFormat("en-US", {
+    notation: "compact",
+    maximumFractionDigits: 1
+  }).format(n);
+};
