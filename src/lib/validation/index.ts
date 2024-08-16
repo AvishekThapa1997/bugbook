@@ -1,5 +1,6 @@
 import zod, { ZodError, ZodSchema } from "zod";
 import { CONSTANTS } from "../../constants";
+import { FieldError } from "../../types";
 
 export const signUpSchema = zod
   .object({

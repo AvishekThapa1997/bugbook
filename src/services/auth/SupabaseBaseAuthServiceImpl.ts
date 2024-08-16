@@ -81,13 +81,13 @@ class SupabaseAuthServiceImpl extends SupabaseClient implements IAuthService {
             message: CONSTANTS.ERROR_MESSAGE.USERNAME_IS_NOT_AVAILABLE
           };
           result.error = result.error
-            ? [
+            ? ([
                 {
                   field: "email",
                   message: (result.error as ErrorData).message
                 },
                 _error
-              ]
+              ] as FieldError<SignUpSchema>[])
             : _error;
           return result;
         }

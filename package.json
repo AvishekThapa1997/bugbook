@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "sh ./deploy.sh && next build",
     "start": "next start",
     "lint": "next lint --max-warnings 0 ./src",
     "format": "prettier ./src --write ",

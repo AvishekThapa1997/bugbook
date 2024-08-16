@@ -61,7 +61,7 @@ class SupabasePostServiceImpl extends BaseService implements IPostService {
       const { data, error, status } = await supabaseClient.rpc(
         "create_post_with_hashtags",
         {
-          hash_tags: tags,
+          hash_tags: tags ?? [],
           post_content: createSchemaParsedData.content
         }
       );

@@ -19,8 +19,8 @@ const RightSidebar = () => {
   }
   return (
     <>
-      <FollowRecommendations userRecommendations={userRecommendations} />
-      <TrendingTopics trendingTopics={trendingTopics} />
+      <FollowRecommendations userRecommendations={userRecommendations!} />
+      <TrendingTopics trendingTopics={trendingTopics!} />
     </>
   );
 };
