@@ -48,7 +48,6 @@ class SupabaseUserServiceImpl extends BaseService implements IUserService {
       if (!username && !email) {
         throw new BadRequestError();
       }
-      await this.getLoggedInUser();
       const supabaseClient = this.getClient();
       const check = [
         username ? `username.eq.${username.toLocaleLowerCase() ?? ""}` : "",
