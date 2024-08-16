@@ -1,3 +1,6 @@
 #!/bin/bash
-echo "API_KEY: $SUPABASE_PROJECT_ID"
+supabase link --project-ref $SUPABASE_PROJECT_ID --workdir=./src/lib/
+supabase db push --workdir=./src/lib/
+
+
 

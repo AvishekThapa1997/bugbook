@@ -14,7 +14,8 @@
     "supabase:stop": "supabase stop --workdir=./src/lib/",
     "supabase:gen-types": "supabase gen types --lang=typescript --local > ./src/lib/supabase/database/database.types.ts --workdir=./src/lib/",
     "migration": "cross-env-shell \"supabase migration new $npm_config_name\" --workdir=./src/lib/",
-    "migrate": "supabase migration up --workdir=./src/lib/"
+    "migrate": "supabase migration up --workdir=./src/lib/",
+    "push:build": "next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
