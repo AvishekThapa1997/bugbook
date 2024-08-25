@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <header className='sticky top-0 z-10 bg-card shadow-sm'>
+    <header className='sticky top-0 z-10 bg-card shadow-sm sm:h-nav'>
       <div className='mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5 px-5 py-3 sm:justify-center'>
         <Logo />
         <GlobalSearchField className='order-1 basis-full sm:order-none sm:basis-56' />

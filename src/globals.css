@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 :root {
+  --nav: 4rem;
+  --content: calc(100vh - var(--nav));
   --background: 224, 5%, 95%;
   --foreground: 240 10% 3.9%;
 

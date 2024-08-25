@@ -7,7 +7,6 @@ const handleAppwriteError = (
   err: AppwriteException
 ): { code: number; message: string } => {
   const errorCode = err.code;
-  console.log({ type: err.type, code: err.code });
   switch (err.type) {
     case "user_already_exists":
     case "user_email_already_exists":

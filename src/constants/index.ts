@@ -36,5 +36,6 @@ export const CONSTANTS = {
     EXPIRATION: 5 * 24 * 60 * 60, // 5 day (in seconds)
     NAME: "session"
   },
-  POST_CONTENT_MAX_LENGTH: 10000
+  POST_CONTENT_MAX_LENGTH: 10000,
+  PAGINATION_LIMIT: 10
 };

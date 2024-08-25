@@ -9,60 +9,45 @@ import { Result } from "../../../types";
 import { CONSTANTS } from "../../../constants";
 import { AuthAdapter } from "../_provider";
 
-class AuthActions implements AuthAdapter {
-  constructor(private authService: IAuthService) {}
+export const signUpUser = async (signUpSchema: SignUpSchema) => {
+  const { data, error } = await authService.signUpUser(signUpSchema);
+  if (data) {
+    redirect("/", RedirectType.replace);
+  }
+  return {
+    error
+  };
+};
 
-  async signUpUser(signUpSchema: SignUpSchema) {
-    const { data, error } = await this.authService.signUpUser(signUpSchema);
-    if (data) {
-      redirect("/", RedirectType.replace);
-    }
+export const signIn = async (signInSchema: SignInSchema) => {
+  const { data, error } = await authService.signIn(signInSchema);
+  if (data) {
+    redirect("/");
+  }
+  return {
+    error
+  };
+};
+
+export const checkUsernameAvailablity = async (username: string) => {
+  const { data } = await authService.checkForUsernameAvailability(username);
+  if (data) {
     return {
-      error
+      error: {
+        code: CONSTANTS.ERROR_STATUS_CODE.CONFLICT,
+        message: CONSTANTS.ERROR_MESSAGE.USERNAME_IS_NOT_AVAILABLE
+      }
     };
   }
+  return {
+    data: `${username} is available.`
+  };
+};
 
-  async signInUser(signInSchema: SignInSchema) {
-    const { data, error } = await this.authService.signIn(signInSchema);
-    if (data) {
-      redirect("/");
-    }
-    return {
-      error
-    };
+export const signOut = async () => {
+  const { error } = await authService.signOut();
+  if (error) {
+    return { error };
   }
-
-  async checkUsernameAvailablity(username: string): Promise<Result<string>> {
-    const { data } =
-      await this.authService.checkForUsernameAvailability(username);
-    if (data) {
-      return {
-        error: {
-          code: CONSTANTS.ERROR_STATUS_CODE.CONFLICT,
-          message: CONSTANTS.ERROR_MESSAGE.USERNAME_IS_NOT_AVAILABLE
-        }
-      };
-    }
-    return {
-      data: `${username} is available.`
-    };
-  }
-
-  async signOut() {
-    const { error } = await this.authService.signOut();
-    if (error) {
-      return { error };
-    }
-    redirect("/signin");
-  }
-}
-
-const authActions = new AuthActions(authService);
-export const signUp: typeof authActions.signUpUser =
-  authActions.signUpUser.bind(authActions);
-export const signIn: typeof authActions.signInUser =
-  authActions.signInUser.bind(authActions);
-export const signOut: typeof authActions.signOut =
-  authActions.signOut.bind(authActions);
-export const checkForUsernameAvailability: typeof authActions.checkUsernameAvailablity =
-  authActions.checkUsernameAvailablity.bind(authActions);
+  redirect("/signin");
+};

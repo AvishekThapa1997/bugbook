@@ -215,7 +215,13 @@ export type Database = {
         };
       };
       get_posts: {
-        Args: Record<PropertyKey, never>;
+        Args: {
+          limit_val?: number;
+          cursor?: {
+            id: string;
+            created_at: string;
+          };
+        };
         Returns: {
           id: string;
           content: string;

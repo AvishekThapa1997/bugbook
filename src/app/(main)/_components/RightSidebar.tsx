@@ -11,16 +11,20 @@ const RightSidebar = () => {
     useTrendingTopics();
   const isFetching =
     isUserRecommendationsGettingFetched || isTrendingTopicsGettingFetched;
-  if (isFetching) {
-    return <p>Loading...</p>;
-  }
-  if (!isFetching && !userRecommendations && !trendingTopics) {
-    return null;
-  }
+
   return (
     <>
-      <FollowRecommendations userRecommendations={userRecommendations!} />
-      <TrendingTopics trendingTopics={trendingTopics!} />
+      {!isFetching && !userRecommendations && !trendingTopics && null}
+      {isUserRecommendationsGettingFetched && (
+        <p>fetching user recommendations</p>
+      )}
+      {Array.isArray(userRecommendations) && userRecommendations.length > 0 && (
+        <FollowRecommendations userRecommendations={userRecommendations} />
+      )}
+      {isTrendingTopicsGettingFetched && <p>fetching trending topics</p>}
+      {Array.isArray(trendingTopics) && trendingTopics.length > 0 && (
+        <TrendingTopics trendingTopics={trendingTopics} />
+      )}
     </>
   );
 };

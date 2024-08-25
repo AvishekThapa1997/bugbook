@@ -15,7 +15,9 @@
     "supabase:gen-types": "supabase gen types --lang=typescript --local > ./src/lib/supabase/database/database.types.ts --workdir=./src/lib/",
     "migration": "cross-env-shell \"supabase migration new $npm_config_name\" --workdir=./src/lib/",
     "migrate": "supabase migration up --workdir=./src/lib/",
-    "push:build": "next build"
+    "push:build": "next build",
+    "test:build": "next build",
+    "db:reset": "supabase db reset --workdir=./src/lib/"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -31,14 +33,16 @@
     "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.45.1",
     "@tanstack/react-query": "^5.51.11",
-    "@tanstack/react-query-devtools": "^5.50.1",
+    "@tanstack/react-query-devtools": "^5.51.24",
     "@tiptap/extension-placeholder": "^2.4.0",
     "@tiptap/pm": "^2.5.8",
     "@tiptap/react": "^2.5.8",
     "@tiptap/starter-kit": "^2.5.8",
     "arctic": "^1.9.1",
+    "axios": "^1.7.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
     "lucide-react": "^0.414.0",
     "next": "14.2.5",

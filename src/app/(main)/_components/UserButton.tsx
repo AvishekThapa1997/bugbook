@@ -23,10 +23,13 @@ import { cn } from "../../../lib";
 import { UserAvatar } from "./UserAvatar";
 import { signOut } from "../../(auth)/_actions";
 import { BaseProps } from "../../../types";
+import { useQueryClient } from "@tanstack/react-query";
+import { useClearCache } from "../_hooks";
 
 const UserButton = ({ className }: BaseProps) => {
   const user = useUser();
   const { setTheme, theme } = useAppTheme();
+  const clear = useClearCache();
 
   return (
     <DropdownMenu>
@@ -80,7 +83,12 @@ const UserButton = ({ className }: BaseProps) => {
           </DropdownMenuPortal>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>
+        <DropdownMenuItem
+          onClick={() => {
+            clear();
+            signOut();
+          }}
+        >
           <LogOut className='mr-2 size-4' />
           <span>Logout</span>
         </DropdownMenuItem>

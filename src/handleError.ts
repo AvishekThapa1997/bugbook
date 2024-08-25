@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { CONSTANTS } from "./constants";
 import { BaseError, SupabaseError } from "./error";
 import { PostgrestError } from "@supabase/supabase-js";
@@ -33,6 +34,8 @@ export const handleError = (err: unknown) => {
       code: err.code,
       message: err.message
     };
+  } else if (err instanceof AxiosError) {
+    return err?.response?.data;
   } else if (typeof err === "string") {
     return {
       code: CONSTANTS.ERROR_STATUS_CODE.SERVER_ERROR,

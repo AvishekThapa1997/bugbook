@@ -9,7 +9,8 @@ export const useUserRecommendations = () => {
     error
   } = useQueryHandler({
     queryKey: ["user-recommendations"],
-    queryFn: () => getUserRecommendations()
+    queryFn: () => getUserRecommendations(),
+    refetchOnWindowFocus: false
   });
   return {
     userRecommendations: result?.data,

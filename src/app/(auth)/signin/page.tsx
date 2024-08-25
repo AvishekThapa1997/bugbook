@@ -39,8 +39,6 @@ const SignInPage = () => {
             src={loginImage}
             alt='A man using computer'
             className='cove h-full object-cover'
-            height={1920}
-            width={1080}
           />
         </Box>
       </Box>

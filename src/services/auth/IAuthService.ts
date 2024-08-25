@@ -7,7 +7,6 @@ export interface IAuthService {
     signUpSchema: SignUpSchema
   ) => Promise<Result<UserDto, FieldError<SignUpSchema>[]>>;
   signIn: (signInSchema: SignInSchema) => Promise<Result<UserDto>>;
-  getLoggedInUser: () => Promise<Result<UserDto>>;
   signOut: () => Promise<Result<void>>;
   checkForUsernameAvailability: (username: string) => Promise<Result<string>>;
 }

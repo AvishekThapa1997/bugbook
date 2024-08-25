@@ -1,13 +1,14 @@
 "use client";
 import { createContext, PropsWithChildren } from "react";
 import { CreatePostSchema } from "../../../../lib/validation";
-import { Result } from "../../../../types";
+import { PostPaginationResult, Result } from "../../../../types";
 import { PostDto } from "../../../dto/postDto";
 import * as postActions from "../_actions";
 import { TrendingTopicDto } from "../../../dto/trendingTopicDto";
+import { getPosts, getTrendingTopics } from "../../../../services/post/api";
 
 export interface PostAdapter {
-  getPosts: () => Promise<Result<PostDto[]>>;
+  getPosts: () => Promise<Result<PostPaginationResult>>;
   createPost: (createPostSchema: CreatePostSchema) => Promise<Result<PostDto>>;
   getTrendingTopics: () => Promise<Result<TrendingTopicDto[]>>;
 }
@@ -15,10 +16,10 @@ export interface PostAdapter {
 export const PostAdapterContext = createContext<PostAdapter | null>(null);
 
 const postAdapter: PostAdapter = {
-  getPosts: () => postActions.getPosts(),
+  getPosts: () => getPosts(),
   createPost: (createPostSchema: CreatePostSchema) =>
     postActions.createPost(createPostSchema),
-  getTrendingTopics: () => postActions.getTrendingTopics()
+  getTrendingTopics: () => getTrendingTopics()
 };
 
 export const PostServiceAdapterProvider = ({ children }: PropsWithChildren) => {

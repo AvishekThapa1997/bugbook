@@ -1,8 +1,9 @@
 "use client";
 import { createContext, PropsWithChildren } from "react";
 import { Result } from "../../../../types";
-import { getUserRecommendations } from "../_actions";
+
 import { UserDto } from "../../../dto/userDto";
+import { getUserRecommendations } from "../../../../services/user/api";
 
 export interface UserAdapter {
   getUserRecommendations: () => Promise<Result<UserDto[]>>;

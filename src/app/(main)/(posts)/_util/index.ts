@@ -1,1 +1,2 @@
-export const extractHashTags = (post: string) => post.match(/#\w+/g);
+export const extractHashTags = (post: string) =>
+  post.match(/#\w+/g)?.map((res) => res) ?? [];

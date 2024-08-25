@@ -1,4 +1,5 @@
 import { InputProps } from "../app/_components/ui";
+import { PostDto } from "../app/dto/postDto";
 
 export interface BaseProps {
   className?: string;
@@ -29,3 +30,15 @@ export interface HashTag {
 type InputEventAction<T> = {
   [key in keyof T]: InputProps;
 };
+
+interface PaginationResult<T, C> {
+  result: T;
+  nextCursor?: C;
+}
+
+export type PostCursor = {
+  id: string;
+  createdAt: string;
+};
+
+export type PostPaginationResult = PaginationResult<PostDto[], PostCursor>;

@@ -1,15 +1,15 @@
 "use client";
 
 import { SignInSchema, SignUpSchema } from "../../../lib/validation";
-import { signUp, signIn, checkForUsernameAvailability } from "../_actions";
+import { signUpUser, signIn, checkUsernameAvailablity } from "../_actions";
 import * as React from "react";
 
 export interface AuthAdapter {
-  signUpUser: (signUpSchema: SignUpSchema) => ReturnType<typeof signUp>;
+  signUpUser: (signUpSchema: SignUpSchema) => ReturnType<typeof signUpUser>;
   signInUser: (signInSchema: SignInSchema) => ReturnType<typeof signIn>;
   checkUsernameAvailablity: (
     username: string
-  ) => ReturnType<typeof checkForUsernameAvailability>;
+  ) => ReturnType<typeof checkUsernameAvailablity>;
 }
 
 export const AuthServiceAdapterContext =
@@ -17,13 +17,13 @@ export const AuthServiceAdapterContext =
 
 const authAdapter: AuthAdapter = {
   async signUpUser(signUpSchema) {
-    return signUp(signUpSchema);
+    return signUpUser(signUpSchema);
   },
   async signInUser(signInSchema) {
     return signIn(signInSchema);
   },
   async checkUsernameAvailablity(username) {
-    return checkForUsernameAvailability(username);
+    return checkUsernameAvailablity(username);
   }
 };
 

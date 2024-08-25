@@ -1,5 +1,6 @@
 import { usePostAdapter } from "./usePostAdapter";
 import { useQueryHandler } from "../../../../lib/react-query";
+import { handleError } from "../../../../handleError";
 
 export const useTrendingTopics = () => {
   const { getTrendingTopics } = usePostAdapter();
@@ -9,11 +10,12 @@ export const useTrendingTopics = () => {
     error
   } = useQueryHandler({
     queryKey: ["trending-topics"],
-    queryFn: () => getTrendingTopics()
+    queryFn: () => getTrendingTopics(),
+    refetchOnWindowFocus: false
   });
   return {
     trendingTopics: result?.data,
     isTrendingTopicsGettingFetched,
-    trendingTopicsError: error || result?.error
+    trendingTopicsError: handleError(error) || result?.error
   };
 };

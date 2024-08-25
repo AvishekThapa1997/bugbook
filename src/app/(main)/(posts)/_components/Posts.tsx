@@ -20,7 +20,7 @@ interface PostItemProps extends BaseProps {
 
 const Posts = ({ posts, className }: PostsProps) => {
   return (
-    <Box className={cn("mt-5 space-y-3", className)}>
+    <Box className={cn("space-y-3", className)}>
       {posts.map((post) => (
         <PostItem
           key={post.id}
