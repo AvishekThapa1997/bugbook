@@ -13,16 +13,17 @@ import {
 } from "../../_components/ui";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { InputField } from "../_types";
 import { BaseProps, InputEventAction } from "../../../types";
 import { useIsClient } from "../../_hooks";
 import { signUpSchema, SignUpSchema } from "../../../lib/validation";
 import { CONSTANTS } from "../../../constants";
-import { useCheckForUsernameAvailability, useUserSignUp } from "../_hooks";
+import { useCheckForUsernameAvailability } from "../_hooks";
 import { ErrorMessage } from "../../_components/common/ErrorMessage";
 import { cn } from "../../../lib";
+import { useAuthAdapter } from "../_hooks/useAuthAdapter";
 
 const signUpFields = [
   {
@@ -58,7 +59,8 @@ const signUpFields = [
 ] as InputField[];
 const SignUpForm = ({ className }: BaseProps) => {
   const prevUsernameRef = useRef<string>("");
-  const { isPending, mutateAsync } = useUserSignUp();
+  const { signUpUser } = useAuthAdapter();
+  const [isPending, startTransition] = useTransition();
   const {
     isPending: isCheckingForUsernameAvailability,
     mutateAsync: checkForUsernameAvailability
@@ -82,25 +84,26 @@ const SignUpForm = ({ className }: BaseProps) => {
   } = signupForm;
 
   async function onSubmit(signUpValues: SignUpSchema) {
-    const { error } = (await mutateAsync(signUpValues)) ?? {};
-
-    if (!error) {
-      return;
-    }
-    if (Array.isArray(error)) {
-      error.forEach(({ field, message }) => {
-        setError(
-          field,
-          { message },
-          {
-            shouldFocus: true
-          }
-        );
+    startTransition(async () => {
+      const { error } = (await signUpUser(signUpValues)) ?? {};
+      if (!error) {
+        return;
+      }
+      if (Array.isArray(error)) {
+        error.forEach(({ field, message }) => {
+          setError(
+            field,
+            { message },
+            {
+              shouldFocus: true
+            }
+          );
+        });
+        return;
+      }
+      setError(`root.${CONSTANTS.ERROR_MESSAGE.SERVER_ERROR}`, {
+        message: error.message
       });
-      return;
-    }
-    setError(`root.${CONSTANTS.ERROR_MESSAGE.SERVER_ERROR}`, {
-      message: error.message
     });
   }
   const serverErrorMessage =

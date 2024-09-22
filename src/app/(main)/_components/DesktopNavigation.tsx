@@ -5,9 +5,7 @@ import { cn } from "../../../lib";
 
 const DesktopNavigation = ({ className }: BaseProps) => {
   return (
-    <aside
-      className={cn("sticky top-[5.25rem] hidden h-fit sm:block", className)}
-    >
+    <aside className={cn("sticky hidden h-fit sm:block", className)}>
       <Navigation className='flex-none space-y-2 rounded-2xl p-3 md:p-4' />
     </aside>
   );

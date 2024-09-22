@@ -12,7 +12,7 @@ export interface IUserRepository {
     username?: UserDto["username"];
   }): Promise<Result<UserDto>>;
 
-  getUserRecommendations(): Promise<Result<UserDto[]>>;
+  getUserRecommendations(userId: UserDto["id"]): Promise<UserDto[] | undefined>;
   checkForUsernameAvailability(username: string): Promise<Result<UserDto>>;
   signUpUser: (signUpSchema: SignUpSchema) => Promise<Result<UserDto>>;
   signIn: ({
@@ -24,4 +24,12 @@ export interface IUserRepository {
   }) => Promise<Result<UserDto>>;
   getLoggedInUser: () => Promise<Result<UserDto>>;
   signOut: () => Promise<Result<void>>;
+  followUser: (
+    userId: UserDto["id"],
+    loggedInUserId: UserDto["id"]
+  ) => Promise<UserDto["id"] | null>;
+  unFollowUser: (
+    userId: UserDto["id"],
+    loggedInUserId: UserDto["id"]
+  ) => Promise<UserDto["id"] | null>;
 }

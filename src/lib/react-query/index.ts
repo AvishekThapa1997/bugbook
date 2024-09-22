@@ -17,7 +17,7 @@ export const usePagination = <Data, PageParam>(
   infiniteQueryOptions: UseInfiniteQueryOptions<
     Data,
     Error,
-    InfiniteData<Data, PageParam>,
+    InfiniteData<Data, PageParam | undefined>,
     Data,
     QueryKey,
     PageParam
@@ -26,12 +26,12 @@ export const usePagination = <Data, PageParam>(
   return useInfiniteQuery<
     Data,
     DefaultError,
-    InfiniteData<Data, PageParam>,
+    InfiniteData<Data, PageParam | undefined>,
     QueryKey,
     PageParam
   >(infiniteQueryOptions);
 };
 
-export const useMutationHandler = <Data, Param>(
-  mutationOptions: UseMutationOptions<Data, DefaultError, Param>
+export const useMutationHandler = <Data, Param, Context = any>(
+  mutationOptions: UseMutationOptions<Data, DefaultError, Param, Context>
 ) => useMutation(mutationOptions);

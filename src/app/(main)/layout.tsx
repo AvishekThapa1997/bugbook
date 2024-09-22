@@ -8,25 +8,36 @@ import { UserProvider } from "./_providers";
 import { Box } from "../_components/ui";
 import { DesktopNavigation } from "./_components/DesktopNavigation";
 import { MobileNavigation } from "./_components/MobileNavigation";
-import { UserServiceAdapterProvider } from "./users/_provider/UserServiceAdapterProvider";
+import { UserServiceAdapterProvider } from "./users/_provider/";
+import { Toaster } from "react-hot-toast";
 
 const MainLayout = async ({ children }: PropsWithChildren) => {
-  const { data } = await getLoggedInUser();
+  const data = await getLoggedInUser();
   if (!data) {
-    redirect("/signup");
+    redirect("/signin");
   }
   return (
-    <UserProvider user={data}>
-      <Header />
-      <Box className='mx-auto flex h-content max-w-7xl grow gap-5 p-5'>
-        <DesktopNavigation className='xl:basis-72' />
+    <>
+      <UserProvider user={data}>
         <UserServiceAdapterProvider>
-          <Box className='h-full flex-grow'>{children}</Box>
+          <MainLayoutContent>{children}</MainLayoutContent>
         </UserServiceAdapterProvider>
-      </Box>
-      <MobileNavigation />
-    </UserProvider>
+      </UserProvider>
+      <Toaster />
+    </>
   );
 };
 
+export const MainLayoutContent = ({ children }: PropsWithChildren) => {
+  return (
+    <>
+      <Header />
+      <Box className='mx-auto flex h-content max-w-7xl grow gap-5 p-5'>
+        <DesktopNavigation className='xl:basis-72' />
+        <Box className='h-full flex-grow'>{children}</Box>
+      </Box>
+      <MobileNavigation />
+    </>
+  );
+};
 export default MainLayout;

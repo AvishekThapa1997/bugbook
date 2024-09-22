@@ -1,6 +1,6 @@
-import { cn } from "@/src/lib";
-import { BaseProps } from "@/src/types";
 import React from "react";
+import { BaseProps } from "../../../types";
+import { cn } from "../../../lib";
 interface ErrorMessageProps extends BaseProps {
   message: string;
 }

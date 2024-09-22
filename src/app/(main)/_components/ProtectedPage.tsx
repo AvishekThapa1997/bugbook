@@ -4,9 +4,10 @@ import { redirect } from "next/navigation";
 import { getLoggedInUser } from "../../(auth)/_util";
 
 const ProtectedPage = async ({ children }: PropsWithChildren) => {
-  const { data } = await getLoggedInUser();
+  const data = await getLoggedInUser();
+  console.log({ data });
   if (!data) {
-    redirect("/signup");
+    redirect("/signin");
   }
   return <>{children}</>;
 };

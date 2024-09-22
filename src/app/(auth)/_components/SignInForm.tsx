@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import React from "react";
+import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import {
   Box,
@@ -18,12 +18,12 @@ import {
 
 import { useIsClient } from "../../_hooks";
 import { InputField } from "../_types";
-import { useUserSignIn } from "../_hooks";
 import { CONSTANTS } from "../../../constants";
 import { ErrorMessage } from "../../_components/common/ErrorMessage";
 import { cn } from "../../../lib";
 import { signInSchema, SignInSchema } from "../../../lib/validation";
 import { BaseProps } from "../../../types";
+import { useAuthAdapter } from "../_hooks/useAuthAdapter";
 
 const loginFields = [
   {
@@ -40,7 +40,8 @@ const loginFields = [
   }
 ] as InputField[];
 const SignInForm = ({ className }: BaseProps) => {
-  const { isPending, mutateAsync } = useUserSignIn();
+  const { signInUser } = useAuthAdapter();
+  const [isPending, startTransition] = useTransition();
   const isClient = useIsClient();
   const loginForm = useForm<SignInSchema>({
     resolver: zodResolver(signInSchema),
@@ -57,12 +58,14 @@ const SignInForm = ({ className }: BaseProps) => {
   } = loginForm;
 
   async function onSubmit(signUpValues: SignInSchema) {
-    const { error } = (await mutateAsync(signUpValues)) ?? {};
-    if (error) {
-      setError(`root.${CONSTANTS.ERROR_MESSAGE.SERVER_ERROR}`, {
-        message: error.message
-      });
-    }
+    startTransition(async () => {
+      const { error } = (await signInUser(signUpValues)) ?? {};
+      if (error) {
+        setError(`root.${CONSTANTS.ERROR_MESSAGE.SERVER_ERROR}`, {
+          message: error.message
+        });
+      }
+    });
   }
   const serverErrorMessage =
     errors.root?.[CONSTANTS.ERROR_MESSAGE.SERVER_ERROR]?.message;

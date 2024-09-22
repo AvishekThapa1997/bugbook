@@ -14,20 +14,32 @@ import {
   parseSchema
 } from "../../lib/validation";
 import { PostCursor, PostPaginationResult, Result } from "../../types";
-import { BaseService } from "../base";
-import { IPostService } from "./IPostService";
 
-class SupabasePostServiceImpl extends BaseService implements IPostService {
-  private constructor(private postRepository: IPostRepository) {
-    super();
-  }
-  async getPosts(cursor: PostCursor): Promise<Result<PostPaginationResult>> {
+import { IPostService } from "./IPostService";
+import { getLoggedInUser as _getLoggedInUser } from "../../app/(auth)/_util";
+import { NotFoundError, UnauthorizedError } from "../../error";
+
+export * from "./IPostService";
+
+const createPostService = (
+  postRepository: IPostRepository,
+  getLoggedInUser: () => ReturnType<Awaited<typeof _getLoggedInUser>>
+): IPostService => {
+  async function getPosts(
+    cursor: PostCursor,
+    onlyFollowersPost?: boolean
+  ): Promise<Result<PostPaginationResult>> {
     const result: Result<PostPaginationResult> = {};
     try {
-      const { id: loggedInUserId } = await this.getLoggedInUser();
-      const { data } = await this.postRepository.getPosts(
+      const loggedInUser = await getLoggedInUser();
+      if (!loggedInUser) {
+        throw new UnauthorizedError();
+      }
+      const { id: loggedInUserId } = loggedInUser;
+      const { data } = await postRepository.getPosts(
         loggedInUserId,
-        cursor
+        cursor,
+        onlyFollowersPost
       );
       if (Array.isArray(data) && data.length > 0) {
         let nextCursor: PostCursor | undefined;
@@ -51,11 +63,16 @@ class SupabasePostServiceImpl extends BaseService implements IPostService {
     }
     return result;
   }
-
-  async createPost(createPostData: CreatePostSchema): Promise<Result<PostDto>> {
+  async function createPost(
+    createPostData: CreatePostSchema
+  ): Promise<Result<PostDto>> {
     const result: Result<PostDto> = {};
     try {
-      const { id: loggedInUserId } = await this.getLoggedInUser();
+      const loggedInUser = await getLoggedInUser();
+      if (!loggedInUser) {
+        throw new UnauthorizedError();
+      }
+      const { id: loggedInUserId } = loggedInUser;
       const { data: createSchemaParsedData } = parseSchema(
         createPostSchema,
         createPostData
@@ -65,7 +82,7 @@ class SupabasePostServiceImpl extends BaseService implements IPostService {
       }
       const { content } = createSchemaParsedData;
       const tags = extractHashTags(createSchemaParsedData.content);
-      const { data } = await this.postRepository.createPost(
+      const { data } = await postRepository.createPost(
         loggedInUserId,
         { content },
         tags
@@ -76,12 +93,14 @@ class SupabasePostServiceImpl extends BaseService implements IPostService {
     }
     return result;
   }
-
-  async getTrendingTopics(): Promise<Result<TrendingTopicDto[]>> {
+  async function getTrendingTopics(): Promise<Result<TrendingTopicDto[]>> {
     const result: Result<TrendingTopicDto[]> = {};
     try {
-      await this.getLoggedInUser();
-      const { data } = await this.postRepository.getTrendingTopics();
+      const loggedInUser = await getLoggedInUser();
+      if (!loggedInUser) {
+        throw new UnauthorizedError();
+      }
+      const { data } = await postRepository.getTrendingTopics();
       result.data = data;
       return result;
     } catch (err) {
@@ -89,10 +108,38 @@ class SupabasePostServiceImpl extends BaseService implements IPostService {
     }
     return result;
   }
-}
+  async function deletePost(postId: PostDto["id"]) {
+    const result: Result<PostDto["id"]> = {};
+    try {
+      const loggedInUser = await getLoggedInUser();
+      if (!loggedInUser) {
+        throw new UnauthorizedError();
+      }
+      const { id } = loggedInUser;
+      const post = await postRepository.getPostById(postId);
+      if (!post) {
+        throw new NotFoundError("Post not found.");
+      }
+      if (post.author.id !== id) {
+        throw new UnauthorizedError();
+      }
+      const data = await postRepository.deletePost(post.id, post.author.id);
+      if (data) {
+        result.data = data;
+      }
+      return result;
+    } catch (err) {
+      result.error = handleError(err);
+      return result;
+    }
+  }
 
-const postService = SupabasePostServiceImpl.getInstance(
-  postRepository
-) as IPostService;
-export { postService };
-export * from "./IPostService";
+  return {
+    getPosts,
+    createPost,
+    getTrendingTopics,
+    deletePost
+  };
+};
+
+export const postService = createPostService(postRepository, _getLoggedInUser);

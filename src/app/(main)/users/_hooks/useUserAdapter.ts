@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { UserAdapterContext } from "../_provider/UserServiceAdapterProvider";
+import { UserAdapterContext } from "../_provider";
 
 export const useUserAdapter = () => {
   const userAdapter = useContext(UserAdapterContext);

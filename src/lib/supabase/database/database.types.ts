@@ -34,6 +34,36 @@ export type Database = {
   };
   public: {
     Tables: {
+      follows: {
+        Row: {
+          followed_id: string;
+          follower_id: string;
+        };
+        Insert: {
+          followed_id: string;
+          follower_id: string;
+        };
+        Update: {
+          followed_id?: string;
+          follower_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "fk_followed";
+            columns: ["followed_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "fk_follower";
+            columns: ["follower_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       hashtags: {
         Row: {
           created_at: string;
@@ -234,6 +264,26 @@ export type Database = {
           };
         }[];
       };
+      get_followers_posts: {
+        Args: {
+          limit_val?: number;
+          cursor?: {
+            id: string;
+            created_at: string;
+          };
+        };
+        Returns: {
+          id: string;
+          content: string;
+          created_at: string;
+          updated_at: string;
+          author: {
+            id: string;
+            username: string;
+            display_name: string;
+          };
+        }[];
+      };
       get_trending_topics: {
         Args: Record<PropertyKey, never>;
         Returns: {
@@ -251,6 +301,7 @@ export type Database = {
           profile_image: string | null;
           updated_at: string | null;
           username: string;
+          isFollowedbyLoggedInUser: boolean;
         }[];
       };
     };

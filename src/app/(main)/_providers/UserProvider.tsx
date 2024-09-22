@@ -6,7 +6,7 @@ import { UserDto } from "../../dto/userDto";
 export const UserContext = createContext<UserDto | null | undefined>(null);
 
 interface UserProviderProps extends PropsWithChildren {
-  user?: UserDto;
+  user: UserDto | null | undefined;
 }
 
 export const UserProvider = ({ user, children }: UserProviderProps) => {

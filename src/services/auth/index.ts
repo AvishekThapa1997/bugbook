@@ -16,17 +16,13 @@ import { ErrorData, FieldError, Result } from "../../types";
 import { UserDto } from "../../app/dto/userDto";
 import { IAuthService } from "./IAuthService";
 import { IUserRepository } from "../../db/users/IUserRepository";
-
 import { CONSTANTS } from "../../constants";
 import { userRepository } from "../../db/users";
-import { BaseService } from "../base";
 
-class SupabaseAuthServiceImpl extends BaseService implements IAuthService {
-  private constructor(private userRepository: IUserRepository) {
-    super();
-  }
-
-  async signUpUser(
+export const createAuthService = (
+  userRepository: IUserRepository
+): IAuthService => {
+  async function signUpUser(
     signUpData: SignUpSchema
   ): Promise<Result<UserDto, FieldError<SignUpSchema>[]>> {
     const result: Result<UserDto, FieldError<SignUpSchema>[]> = {};
@@ -40,7 +36,7 @@ class SupabaseAuthServiceImpl extends BaseService implements IAuthService {
         return result;
       }
       const { email, password, name, username } = parsedSignUpData;
-      const existingUserResult = await this.userRepository.getUserDetails({
+      const existingUserResult = await userRepository.getUserDetails({
         email,
         username
       });
@@ -74,7 +70,7 @@ class SupabaseAuthServiceImpl extends BaseService implements IAuthService {
       if (result.error) {
         return result;
       }
-      const { data: user } = await this.userRepository.signUpUser({
+      const { data: user } = await userRepository.signUpUser({
         email,
         name,
         password,
@@ -86,8 +82,7 @@ class SupabaseAuthServiceImpl extends BaseService implements IAuthService {
     }
     return result;
   }
-
-  async signIn(signInData: SignInSchema): Promise<Result<UserDto>> {
+  async function signIn(signInData: SignInSchema): Promise<Result<UserDto>> {
     const result: Result<UserDto> = {};
     try {
       const { data: parsedSignInData } = parseSchema(signInSchema, signInData);
@@ -97,7 +92,7 @@ class SupabaseAuthServiceImpl extends BaseService implements IAuthService {
       const { password, username } = parsedSignInData;
       let userEmail = username;
       if (!isEmail(userEmail)) {
-        const { data } = await this.userRepository.getUserDetails({
+        const { data } = await userRepository.getUserDetails({
           username
         });
         if (!data) {
@@ -105,7 +100,7 @@ class SupabaseAuthServiceImpl extends BaseService implements IAuthService {
         }
         userEmail = data.email!;
       }
-      const { data } = await this.userRepository.signIn({
+      const { data } = await userRepository.signIn({
         email: userEmail,
         password
       });
@@ -115,17 +110,16 @@ class SupabaseAuthServiceImpl extends BaseService implements IAuthService {
     }
     return result;
   }
-
-  async signOut(): Promise<Result<void>> {
+  async function signOut(): Promise<Result<void>> {
     const result: Result<void> = {};
     try {
-      this.userRepository.signOut();
+      userRepository.signOut();
     } catch (err) {
       result.error = handleError(err);
     }
     return result;
   }
-  async checkForUsernameAvailability(
+  async function checkForUsernameAvailability(
     username: string
   ): Promise<Result<string>> {
     const result: Result<string, FieldError<{ username: string }>> = {};
@@ -134,16 +128,16 @@ class SupabaseAuthServiceImpl extends BaseService implements IAuthService {
         throw new BadRequestError();
       }
       const { data } =
-        await this.userRepository.checkForUsernameAvailability(username);
+        await userRepository.checkForUsernameAvailability(username);
       result.data = data?.id ?? "";
     } catch (err) {
       result.error = handleError(err);
     }
     return result;
   }
-}
 
-const authService = SupabaseAuthServiceImpl.getInstance(
-  userRepository
-) as SupabaseAuthServiceImpl;
+  return { signUpUser, signIn, checkForUsernameAvailability, signOut };
+};
+
+const authService = createAuthService(userRepository);
 export { authService };

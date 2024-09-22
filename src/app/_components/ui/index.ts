@@ -6,5 +6,7 @@ export * from "./Label";
 export * from "./Button";
 export * from "./PasswordInput";
 export * from "./LoadingButton";
+export * from "./Skeleton";
 export * from "./DropdownMenu";
 export * from "./Avatar";
+export * from "./Tabs";

@@ -15,7 +15,7 @@ export const metadata = {
 const SignInPage = () => {
   return (
     <main className='flex h-svh items-center px-4'>
-      <Box className='relative mx-auto flex max-h-[40rem] min-h-[30rem] max-w-96 basis-full overflow-hidden overflow-y-auto rounded-md bg-card p-0 shadow-xl md:max-w-4xl'>
+      <Box className='relative mx-auto flex max-h-[40rem] max-w-96 basis-full overflow-hidden overflow-y-auto rounded-md bg-card p-0 shadow-xl md:min-h-[30rem] md:max-w-4xl'>
         <Box className='basis-full space-y-4 p-6 md:basis-1/2 md:p-10'>
           <Box className='space-y-1 text-center'>
             <h1 className='text-2xl font-bold md:text-3xl'>

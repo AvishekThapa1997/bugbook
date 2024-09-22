@@ -15,7 +15,7 @@ const FollowRecommendations = ({
   userRecommendations
 }: FollowRecommendationsProps) => {
   return (
-    <Box className='space-y-3 rounded-xl bg-card p-4 shadow-sm md:p-5'>
+    <Box className='space-y-3 rounded-xl bg-card p-4 shadow-sm md:py-5'>
       <h2 className='text-xl font-bold'>Who to follow</h2>
       <Box className='space-y-3'>
         {userRecommendations.map((user) => (
@@ -52,7 +52,11 @@ const RecommenderUser = ({ user }: RecommenderUserProps) => {
           </p>
         </Box>
       </Link>
-      <UserFollowButton username={user.username} />
+      <UserFollowButton
+        userId={user.id}
+        isFollowing={user.isFollowedbyLoggedInUser}
+        className='w-20'
+      />
     </Box>
   );
 };

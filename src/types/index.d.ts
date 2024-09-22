@@ -32,8 +32,8 @@ type InputEventAction<T> = {
 };
 
 interface PaginationResult<T, C> {
-  result: T;
-  nextCursor?: C;
+  result?: T;
+  nextCursor?: C | null;
 }
 
 export type PostCursor = {

@@ -4,4 +4,5 @@ export interface UserDto {
   displayName: string;
   username: string;
   profileImage?: string;
+  isFollowedbyLoggedInUser?: boolean;
 }

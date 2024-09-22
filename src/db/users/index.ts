@@ -9,6 +9,44 @@ class SupabaseUserRepository extends BaseRepository implements IUserRepository {
   private constructor() {
     super();
   }
+  async followUser(
+    userId: UserDto["id"],
+    loggedInUserId: UserDto["id"]
+  ): Promise<UserDto["id"]> {
+    const supabaseClient = this.getClient();
+    const { data, status, error } = await supabaseClient
+      .from("follows")
+      .insert({ follower_id: loggedInUserId, followed_id: userId })
+      .select()
+      .single();
+    if (error) {
+      throw error;
+    }
+    if (status === 201) {
+      return data.followed_id;
+    }
+    return "";
+  }
+  async unFollowUser(
+    userId: UserDto["id"],
+    loggedInUserId: UserDto["id"]
+  ): Promise<UserDto["id"]> {
+    const supabaseClient = this.getClient();
+    const { data, status, error } = await supabaseClient
+      .from("follows")
+      .delete()
+      .eq("follower_id", loggedInUserId)
+      .eq("followed_id", userId)
+      .select()
+      .single();
+    if (error) {
+      throw error;
+    }
+    if (status === 200) {
+      return data.followed_id;
+    }
+    return "";
+  }
 
   async checkForUsernameAvailability(
     username: string
@@ -53,27 +91,28 @@ class SupabaseUserRepository extends BaseRepository implements IUserRepository {
     return result;
   }
 
-  async getUserRecommendations(): Promise<Result<UserDto[]>> {
-    const result: Result<UserDto[]> = {};
+  async getUserRecommendations(userId: UserDto["id"]): Promise<UserDto[]> {
     const supabaseClient = this.getClient();
     const { data, error } = await supabaseClient.rpc(
       "get_user_recommendations"
     );
+
     if (error) {
       throw error;
     }
     if (data) {
-      result.data = data.map(
-        ({ id, display_name, email, username }) =>
+      return data.map(
+        ({ id, display_name, email, username, isFollowedbyLoggedInUser }) =>
           ({
             id,
             email,
             username,
-            displayName: display_name
+            displayName: display_name,
+            isFollowedbyLoggedInUser
           }) as UserDto
       );
     }
-    return result;
+    return;
   }
 
   async signUpUser(signUpSchema: SignUpSchema): Promise<Result<UserDto>> {
@@ -141,7 +180,7 @@ class SupabaseUserRepository extends BaseRepository implements IUserRepository {
     if (error) {
       throw error;
     }
-    const { user } = data ?? {};
+    const { user } = data;
     if (user) {
       const { id, email, user_metadata } = user;
       result.data = {

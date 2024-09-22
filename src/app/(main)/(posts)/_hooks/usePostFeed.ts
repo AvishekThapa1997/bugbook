@@ -1,25 +1,32 @@
-import { error } from "console";
-import { usePagination, useQueryHandler } from "../../../../lib/react-query";
+import { QueryKey } from "@tanstack/react-query";
+import { usePagination } from "../../../../lib/react-query";
 import { PostCursor, PostPaginationResult, Result } from "../../../../types";
 
-export const usePostFeed = (
-  operation: (pageParam?: PostCursor) => Promise<Result<PostPaginationResult>>,
-  initialPageParam: PostCursor = { createdAt: "", id: "" }
-) => {
+export const usePostFeed = ({
+  operation,
+  queryKey,
+  initialPageParam = { createdAt: "", id: "" }
+}: {
+  operation: (pageParam?: PostCursor) => Promise<Result<PostPaginationResult>>;
+  initialPageParam?: PostCursor;
+  queryKey: QueryKey;
+}) => {
   const { data, ...other } = usePagination<
     Result<PostPaginationResult>,
-    PostCursor
+    PostCursor | undefined
   >({
-    queryKey: ["post-feed"],
+    queryKey,
     queryFn: ({ pageParam }) => operation(pageParam),
     getNextPageParam: (postResult) => {
       if (postResult?.data?.nextCursor) {
         return postResult?.data?.nextCursor;
       }
-      return null;
+      return;
     },
     initialPageParam,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    retry: false,
+    staleTime: 2 * 60 * 1000
   });
   return {
     paginatedData:
