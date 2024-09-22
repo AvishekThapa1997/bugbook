@@ -112,7 +112,7 @@ class SupabaseUserRepository extends BaseRepository implements IUserRepository {
           }) as UserDto
       );
     }
-    return;
+    return [];
   }
 
   async signUpUser(signUpSchema: SignUpSchema): Promise<Result<UserDto>> {
